@@ -1,0 +1,127 @@
+create database com_vida;
+
+use com_vida; 
+
+create table estado (
+	codest integer auto_increment primary key, 
+	desest varchar(20) not null,
+	unifedest char(2) not null
+);
+
+create table cidade (
+	codcid integer auto_increment primary key, 
+	codest integer not null,
+	nomcid varchar(20) not null,
+	constraint cidade_codest_fk foreign key (codest) references estado (codest)
+);
+
+create table cep (
+	codcep integer auto_increment primary key, 
+	codcid integer not null,
+	numcep integer not null,
+	constraint cep_codcid_fk foreign key (codcid) references cidade (codcid)
+);
+
+create table endereco (
+	codend integer auto_increment primary key, 
+	ruaend varchar(50) not null,
+	numend integer not null, 
+	baiend varchar(30) not null, 
+	codcep integer not null,
+	constraint endereco_codcep_fk foreign key (codcep) references cep (codcep)
+);
+
+create table genero (
+	codgen integer auto_increment primary key,
+	desgen varchar(15) not null
+);
+
+create table usuario (
+	codusu integer auto_increment primary key, 
+	nomusu varchar(50) not null,
+	datnasusu date not null, 
+	codend integer not null, 
+	avausu blob not null,
+	constraint usuario_codend_fk foreign key (codend) references endereco (codend)
+);
+
+create table sintoma (
+	codsin integer auto_increment primary key, 
+	dessin varchar(10) not null
+);
+
+create table intensidade (
+	codint integer auto_increment primary key, 
+	desint varchar(10) not null
+);
+
+create table prontuario (
+	codpro integer auto_increment primary key, 
+	codusu integer not null, 
+	codsin integer not null, 
+	codint integer not null, 
+	datpro date not null,
+	retpro boolean,
+	datret date,
+	constraint prontuario_codusu_fk foreign key (codusu) references usuario (codusu),
+	constraint prontuario_codsin_fk foreign key (codsin) references sintoma (codsin),
+	constraint prontuario_codint_fk foreign key (codint) references intensidade (codint)
+);
+
+/***********************************************************/
+
+insert into estado (codest, desest, unifedest) values (1, 'RIO GRANDE DO SUL', 'RS');
+insert into estado (codest, desest, unifedest) values (2, 'SANTA CATARINA', 'SC');
+insert into estado (codest, desest, unifedest) values (3, 'PARANÁ', 'PR');
+
+insert into estado (codest, desest, unifedest) values (4, 'SÃO PAULO', 'SP');
+insert into estado (codest, desest, unifedest) values (5, 'RIO DE JANEIRO', 'RJ');
+insert into estado (codest, desest, unifedest) values (6, 'ESPÍRITO SANTO', 'ES');
+insert into estado (codest, desest, unifedest) values (7, 'MINAS GERAIS', 'MG');
+
+insert into estado (codest, desest, unifedest) values (8, 'GOIÁS', 'GO');
+insert into estado (codest, desest, unifedest) values (9, 'MATO GROSSO', 'MT');
+insert into estado (codest, desest, unifedest) values (10, 'MATO GROSSO DO SUL', 'MS');
+
+insert into estado (codest, desest, unifedest) values (11, 'ALAGOAS', 'AL');
+insert into estado (codest, desest, unifedest) values (12, 'BAHIA', 'BA');
+insert into estado (codest, desest, unifedest) values (13, 'CEARÁ', 'CE');
+insert into estado (codest, desest, unifedest) values (14, 'MARANHÃO', 'MA');
+insert into estado (codest, desest, unifedest) values (15, 'PARAÍBA', 'PB');
+insert into estado (codest, desest, unifedest) values (16, 'PERNAMBUCO', 'PE');
+insert into estado (codest, desest, unifedest) values (17, 'PIAUÍ', 'PI');
+insert into estado (codest, desest, unifedest) values (18, 'RIO GRANDE DO NORTE', 'RN');
+insert into estado (codest, desest, unifedest) values (19, 'SERGIPE', 'SE');
+
+insert into estado (codest, desest, unifedest) values (20, 'ACRE', 'AC');
+insert into estado (codest, desest, unifedest) values (21, 'AMAPÁ', 'AP');
+insert into estado (codest, desest, unifedest) values (22, 'AMAZONAS', 'AM');
+insert into estado (codest, desest, unifedest) values (23, 'PARÁ', 'PA');
+insert into estado (codest, desest, unifedest) values (24, 'RONDÔNIA', 'RO');
+insert into estado (codest, desest, unifedest) values (25, 'RORAIMA', 'RR');
+insert into estado (codest, desest, unifedest) values (26, 'TOCANTINS', 'TO');
+
+
+insert into genero (codgen, desgen) values (1, 'MASCULINO');
+insert into genero (codgen, desgen) values (2, 'FEMININO');
+
+insert into sintoma (codsin, dessin) values (1, 'FEBRE');
+insert into sintoma (codsin, dessin) values (2, 'TOSSE SECA');
+insert into sintoma (codsin, dessin) values (3, 'CANSAÇO');
+insert into sintoma (codsin, dessin) values (4, 'DOR DE GARGANTA');
+insert into sintoma (codsin, dessin) values (5, 'DIARREIA');
+insert into sintoma (codsin, dessin) values (6, 'CONJUNTIVITE');
+insert into sintoma (codsin, dessin) values (7, 'DOR DE CABEÇA');
+insert into sintoma (codsin, dessin) values (8, 'PERDA DE PALADAR OU OLFATO');
+insert into sintoma (codsin, dessin) values (9, 'DIFICULDADE DE RESPIRAR');
+insert into sintoma (codsin, dessin) values (10, 'DOR NO PEITO');
+insert into sintoma (codsin, dessin) values (11, 'DORES NO CORPO');
+insert into sintoma (codsin, dessin) values (12, 'PERDA DE FALA OU MOVIMENTO');
+
+
+insert into intensidade (codint, desint) values (1, 'BAIXA');
+insert into intensidade (codint, desint) values (2, 'MODERADA');
+insert into intensidade (codint, desint) values (3, 'ALTA');
+
+
+
