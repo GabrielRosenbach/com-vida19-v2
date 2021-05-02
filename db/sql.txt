@@ -123,5 +123,10 @@ insert into intensidade (codint, desint) values (1, 'BAIXA');
 insert into intensidade (codint, desint) values (2, 'MODERADA');
 insert into intensidade (codint, desint) values (3, 'ALTA');
 
+/*************************************************************************/
+
+create user 'desenvolvimento'@'localhost' identified by '$k£Y!M@sT3R';
+grant select, insert, update, delete on com_vida . * to 'desenvolvimento'@'localhost';
+
 
 
