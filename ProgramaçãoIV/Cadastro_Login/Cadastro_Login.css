@@ -1,0 +1,418 @@
+*{
+    box-sizing: border-box;margin: 0;padding: 0;
+}
+
+/*Declaracao de variaveis*/
+:root{
+    --cor_geral: #20758a;
+    --container_before: rgb(93, 187, 182);
+    --container_after: #fff;
+    --label_input: #ecf0f1;
+    --cor_forgot_password: rgb(255, 255, 255);
+    /*PERIODO DE TRANSICAO DA SECAO BEFORE E AFTER*//*aqui funcionara assim pense*/
+    /*valor inicial usado no containner before*/
+   /* --cor_inicial: rgb(2, 15, 15);      
+    --cor_segundaria: rgb(23, 83, 28);    
+    --cor_terciaria:rgb(236, 236, 22);    
+    --cor_quartenaria: rgb(252, 11, 11); */              
+/*valor quartenario usado no containner after*/
+    --cor_inicial: rgb(93, 187, 182);   /*    inicio do estado coluna 1 mas fim da coluna 2*/
+    --cor_segundaria: rgb(126, 207, 203); /*estagio 2 da coluna 1 e estagio 3 da coluna 2 */
+    --cor_terciaria:rgb(240, 240, 234);   /* estagio 3 da coluna 1 e estagio 2 da coluna 2*/
+    --cor_quartenaria: #fff; 
+}
+
+body{
+    font-family: sans-serif;
+}
+#secao_principal{
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cor_geral);
+
+}
+.container_form{ /* esse container será centralizado pela seção principal, e terá 2 colunas parte do formulário*/
+   height: 80%;
+    width: 960px;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+
+}
+.container_form::before{
+    content: "";
+    position: absolute;
+    display: flex;
+    z-index: 2;
+    height: 90%;
+    width: 40%;
+    align-self: center;
+    background-color:var(--cor_inicial) ;
+    text-align: center;
+}
+.container_form::after{
+    content: "";
+    position: absolute;
+    display: flex;
+    z-index: 2;
+    right: 0;
+    height: 100%;
+    width: 60%;
+    align-self: center;
+    background-color: var(--cor_quartenaria);
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 15px;
+}
+.first_content{
+    display: flex;
+    width: 100%;
+    flex-direction: row; 
+    z-index: 3;
+    height: 100%;
+    position: absolute;
+}
+
+.columns{ /*estilos geral nas colunas*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.first_column{
+    width: 40%;
+    display: flex;
+    height: 90%;
+    align-self: center;
+    justify-content: center;
+    background-color: transparent; 
+}
+
+.second_column{
+    width: 60%;
+    height: 100%;
+    display: flex;
+    align-self: center; /*aqui para depois quando o user apertar o botao o conteudo ir junto*/
+    z-index: 3; /*aqui para que o conteudo da coluna 2 esteja por cima do container_form::after*/
+
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 55%;    
+}
+.title{
+    text-transform: capitalize;
+    font-weight: bold;
+    margin: 45px 0px;
+}
+.descricao{ /*esta relacionado a parte da 1 coluna onde tem uma breve descricao*/
+    font-size: 1em;
+    margin: 5px 0;
+}
+.label_input{
+    display: flex;
+    background-color: var(--label_input);
+    text-align: center;
+    height: 50px;
+    font-size: 2em;
+}
+.label_input:not(:first-child){ /*aqui apenas o primeiro filho do label input NÃO receberá o margin-top,(o label nome)*/
+    margin-top: 15px;
+}
+.icon_modify{
+    padding: 10px 10px;
+}
+.form input{
+    width: 100%;
+    height: 100%;
+    border-style: none;
+    background-color: transparent;
+    line-height: 45px;
+    font-size: .7em;
+}
+input:-webkit-autofill /*precisa colocar para que nos input fique sempre com a cor mais cinza se nao quando for digitar fica white*/
+{    
+      -webkit-box-shadow: 0 0 0px 1000px #ecf0f1 inset !important;
+        -webkit-text-fill-color: rgb(0, 0, 0) !important;
+}
+
+.btn_enviar{ /*Padrao dos botões geral*/
+    align-self: center;
+    border-style: none;
+    margin: 40px 0px;
+    line-height: 30px;
+    border-radius: 14px;
+    text-transform: uppercase;
+    width: 150px;
+    cursor: pointer;
+}
+
+/*Formatacoes do login second content*/
+.second_content{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+    z-index: -1;
+    position: absolute; /* aqui para ficar um em cima do outro*/
+}
+.forgot_password{
+    margin: 15px 0px;
+    text-align: center;
+}
+.forgot_password > a{
+    text-decoration: none;
+    font-size: .7em;
+    color: var(--cor_forgot_password);
+}
+
+/*parte da animacao com java script*/
+
+/*1 coluna ira para a direita*/
+.btnLogin_js .container_form::before,
+.btnCadastro_js .container_form::after
+{
+    animation: coluna1_vai_para_coluna2 3s;
+}
+
+/*2 coluna ira para a esquerda*/
+.btnLogin_js .container_form::after,
+.btnCadastro_js .container_form::before{
+    animation: coluna2_vai_para_coluna1 3s;
+}
+
+
+.btnCadastro_js .first_column,
+.btnLogin_js .first_column{
+    animation: deslocamentoEsqToRi 3s;
+}
+.btnLogin_js .second_column,
+.btnCadastro_js .second_column{
+    animation: deslocamentoRitoEsq 3s;
+}
+
+.btnCadastro_js .first_content {/*quando apertar o cadastrar-se da 1 coluna o first content tem -1 terá 3*/
+   z-index: 3; transition-delay: 3.5s;
+}
+.btnCadastro_js .second_content {/*quando apertar o cadastre-se da 1 coluna o second contente que tinha 3 terá -1*/
+ z-index: -1;
+}
+.btnLogin_js .second_content{/*quando apertar o login o 2 conteudo tem -1 tera 3*/
+    z-index: 3; transition-delay: 3.5s;
+}
+.btnLogin_js .first_content{/*quando apertar o login o 1 conteudo tem 3 tera -1*/
+  z-index: -1;
+}
+/*ANIMACAO CSS PARA DESLOCAMENTO DO BACKGROUNS*/
+@keyframes coluna1_vai_para_coluna2{/* parte do cadastro, essa parte irá na primeira coluna onde tem para o user coluna1_vai_para_coluna2 se ja possuir conta*/
+
+    from{
+        left: 0;
+        height: 70%;
+        background-color:  var(--cor_inicial);
+        z-index: 1;
+        width: 40%;
+    }
+    50%{
+        left: 30%;
+        background-color: var(--cor_segundaria);
+        z-index: 1;
+    }
+    
+    75%{
+        width: 50%;
+        height: 90%;
+        background-color:  var(--cor_terciaria);
+        z-index: 1;
+    }
+    to{
+        left: 40%;
+        width: 60%;
+        height: 100%;
+        background-color: var(--cor_quartenaria);
+        z-index: 1;
+    }
+}
+/* parte do criar conta ira para a esquerda quando o user clicar em entrar na coluna a esquerda*/
+@keyframes coluna2_vai_para_coluna1{
+    from{
+        right: 0;
+        background-color: var(--cor_quartenaria);
+        width: 60%;
+    }
+    50%{
+        right: 10%;
+        height: 95%;
+        width: 53%;
+        border-top-right-radius: 16.6px ;
+        border-bottom-right-radius: 10px ;
+        background-color: var(--cor_terciaria);
+    }
+    75%{
+        right: 30%;
+        height: 92.5%;
+        width: 46%;
+        border-top-right-radius: 8.2px ;
+        border-bottom-right-radius: 5px ;
+        background-color: var(--cor_segundaria);
+    }
+    to{
+        right: 60%;
+        height: 90%;
+        width: 40%;
+        border-top-right-radius: 0px ;
+        border-bottom-right-radius: 0px ;
+        background-color: var(--cor_inicial);
+    }
+
+}
+
+/*aqui parte das animações do conteudo das colunas*/
+@keyframes deslocamentoEsqToRi{
+    from{
+        left: 0;
+        opacity: .5;
+    }
+    50%{
+        left: 30%;
+        opacity: .5;
+    }
+    to{
+        opacity: 0;
+    }
+
+}
+
+@keyframes deslocamentoRitoEsq{
+    from{
+        right: 0;
+        opacity: .6;
+    }
+    50%{
+        right: 5%;
+        height: 95%;
+        width: 53%;
+        opacity: .4;
+    }
+    75%{
+        right: 15%;
+        height: 92.5%;
+        width: 46%;
+       opacity: 0;
+    }
+    to{
+        right: 60%;
+        height: 90%;
+        width: 40%;
+        opacity: 0;
+    }
+
+}
+
+
+/*Acrescentando responsividade*/
+
+@media screen and (max-width: 1040px) {
+    #secao_principal{
+       
+        flex-direction: column;
+    }
+    .container_form{
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+    .first_content{
+        outline: black 1px solid;
+    }
+    .first_content, .second_content{
+        flex-direction: column;
+        height: 100%;
+    }
+    .container_form::before{
+        width: 100%;
+        height: 40%;
+        bottom: 0;
+    }
+    .container_form::after{
+        width: 100%;
+        height: 60%;
+        top: 0;
+        border-radius: 0%;
+    }
+    .first_column, .second_column{
+        width: 100%; 
+    }
+    .first_column{
+        order: 2;
+        height: 40%;
+    
+    }
+    .second_column{
+        order: 1;
+        height: 60%; 
+    }
+    .form{
+        width: 80%;
+    }
+
+    @keyframes coluna1_vai_para_coluna2{/* parte do cadastro, essa parte irá na primeira coluna onde tem para o user coluna1_vai_para_coluna2 se ja possuir conta*/
+
+        from{
+            bottom: 0;
+            height: 60%;
+            background-color:  var(--cor_inicial);
+            z-index: 1;
+            width: 100%;
+        }
+        50%{
+            bottom: 30%;
+            background-color: var(--cor_segundaria);
+            z-index: 1;
+        }
+        
+        75%{
+            width: 100%;
+            height: 70%;
+            background-color:  var(--cor_terciaria);
+            z-index: 1;
+        }
+        to{
+            bottom: 40%;
+            width: 100%;
+            height: 60%;
+            background-color: var(--cor_quartenaria);
+            z-index: 1;
+        }
+    }
+
+    @keyframes coluna2_vai_para_coluna1{
+        from{
+            top: 0;
+            background-color: var(--cor_quartenaria);
+        }
+        50%{
+            top: 10%;
+            height: 95%;
+            background-color: var(--cor_terciaria);
+        }
+        75%{
+            top: 30%;
+            height: 92.5%;
+            border-top-right-radius: 8.2px ;
+            border-bottom-right-radius: 5px ;
+            background-color: var(--cor_segundaria);
+        }
+        to{
+            top: 60%;
+            height: 40%;
+            background-color: var(--cor_inicial);
+        }
+    
+    }
+
+} /*fim da media screem max 1040px

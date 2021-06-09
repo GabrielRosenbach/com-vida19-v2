@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Cadastro Login</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="Cadastro_Login.css">
+    </head>
+    <body>
+        <section id="secao_principal"><!--esta secao ficara encostada do body, usara elementos css para centralizar o container form-->
+            <!--Cadastro-->
+            <section class="container_form"> <!--Esse container estará centralizado, ele tera dois conteudos, uma com o form do cadastro e a outra do login-->
+
+                <section class="first_content "><!--Inicio do first content, que é o conteudo do cadastro(tem duas colunas fisrt(login) second(cadastro))-->
+                    <div class="first_column columns "> <!--1 coluna será a parte do login-->
+                        <h2 class="title">Já possui uma conta?</h2>
+                        <p class="descricao">Bem vindo de volta</p>
+                        <button id="btn_entrar" class="btn_enviar">Entrar</button>
+                    </div><!--Fim 1 coluna será a parte do login-->
+
+                    <div class="second_column columns "><!-- 2 coluna será a parte do cadastro-->
+                        <h2 class="title">Criar Conta</h2>
+
+                        <form action="Cadastro.php"  method="POST" class="form"><!--Formulário do cadastro-->
+                            <label class="label_input" for="login"><img src="adduser.png " class="icon_modify"></img><input type="text" id="login" name="login" placeholder="Digite seu Nome"></label>
+
+                            <label class="label_input" for="email"><img src="email-envelope.svg " alt="email" class="icon_modify"><input type="email" id="email" name="email" placeholder="Digite seu E-mail"></label>
+
+                            <label class="label_input" for="password"><img src="lock.png" alt="password" class="icon_modify"><input type="password" id="password" name="password" placeholder="Digite sua Senha"></label>
+                            <button class="btn_enviar">Cadastrar-se</button>
+                        </form>
+
+                    </div><!-- Fim 2 coluna será a parte do cadastro-->
+                </section><!--Fim do first content, que é o conteudo do cadastro-->
+
+                <!--Inicio do login-->
+                <section class="second_content"><!--2 conteudo, parte do login-->
+                    <div class="first_column columns">
+                        <h2 class="title">Olá!!</h2>
+                        <p class="descricao">Ainda não tem uma conta?</p>
+                        <p class="descricao">Inicie sua jornada conosco.</p>
+                        <button id="btnCadastro" class="btn_enviar">Cadastrar-se</button>
+                    </div>
+                    <div class="second_column columns">
+                        <h2 class="title">Entrar</h2>
+
+                        <form action="login.php" method="POSTn" class="form">
+                            <label for="email" class="label_input">
+                                <img src="email-envelope.svg" class="icon_modify"> <input type="email" id="email" name="email" placeholder="Digite seu E-mail" required>
+                            </label>
+                            <label for="password" class="label_input">
+                                <img src="lock.png" class="icon_modify"><input type="password" id="password" name="password" placeholder="Digite sua Senha" required>
+                            </label>
+                            <button class="btn_enviar">Entrar</button>
+                            <div class="forgot_password">
+                                <a href="#">Esqueceu sua senha?</a>
+                            </div>
+                        </form>
+                    </div>
+                </section><!--Fim do 2 conteudo, parte do login-->
+            <!--Fim do login-->
+            </section>
+            <!-- Fim do container form-->
+
+            
+        </section><!--FIM DA SEÇÃO PRINCIPAL-->
+        <script src="Cadastro_Login.js"></script><!--script para quando for acionado os botões, da 1 coluna-->
+    </body>
+</html>
