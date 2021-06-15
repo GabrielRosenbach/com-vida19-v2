@@ -22,12 +22,12 @@
                         <h2 class="title">Criar Conta</h2>
 
                         <form action="Cadastro.php"  method="POST" class="form"><!--Formulário do cadastro-->
-                            <label class="label_input" for="login"><img src="adduser.png " class="icon_modify"></img><input type="text" id="login" name="login" placeholder="Digite seu Nome"></label>
+                            <label class="label_input" for="login"><img src="adduser.png " class="icon_modify"></img><input type="text" id="login" name="login" placeholder="Digite seu Nome/Login" maxlength="20" title="Nome de usuário" required></label>
 
-                            <label class="label_input" for="email"><img src="email-envelope.svg " alt="email" class="icon_modify"><input type="email" id="email" name="email" placeholder="Digite seu E-mail"></label>
+                            <label class="label_input" for="email"><img src="email-envelope.svg " alt="email" class="icon_modify"><input type="email" id="email" name="email" placeholder="Digite seu E-mail" maxlength="80" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\[a-z]{2,}$" title="nomeusuario@servidor.com" required></label>
 
-                            <label class="label_input" for="password"><img src="lock.png" alt="password" class="icon_modify"><input type="password" id="password" name="password" placeholder="Digite sua Senha"></label>
-                            <button class="btn_enviar">Cadastrar-se</button>
+                            <label class="label_input" for="password"><img src="lock.png" alt="password" class="icon_modify"><input type="password" id="password" name="password" placeholder="Digite sua Senha" maxlength="30" ></label>
+                            <button class="btn_enviar" required>Cadastrar-se</button>
                         </form>
 
                     </div><!-- Fim 2 coluna será a parte do cadastro-->
@@ -44,9 +44,9 @@
                     <div class="second_column columns">
                         <h2 class="title">Entrar</h2>
 
-                        <form action="login.php" method="POSTn" class="form">
+                        <form action="login.php" method="POST" class="form">
                             <label for="email" class="label_input">
-                                <img src="email-envelope.svg" class="icon_modify"> <input type="email" id="email" name="email" placeholder="Digite seu E-mail" required>
+                                <img src="email-envelope.svg" class="icon_modify"> <input type="email" id="email" name="email" placeholder="Digite seu E-mail" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}" required>
                             </label>
                             <label for="password" class="label_input">
                                 <img src="lock.png" class="icon_modify"><input type="password" id="password" name="password" placeholder="Digite sua Senha" required>
