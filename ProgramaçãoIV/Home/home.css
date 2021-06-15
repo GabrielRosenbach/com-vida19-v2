@@ -2,22 +2,92 @@
     margin: 0;padding: 0;box-sizing: border-box;
 }
 body{
-    background-color: rgb(24, 135, 168);
+    /*background: linear-gradient(to right,#159957,#155799);*/
+  /*  background: linear-gradient(to right,#000046,#1CB5E0);*/
+ background: linear-gradient(to right,#007991,#78ffd6);
+ /* background: linear-gradient(to right,#4AC29A,#BDFFF3);*/
 }
 #secao_principal{
     display: block;
     margin: 0px 25px;
-    
     padding: 5px;
+    width: 80%;
+    margin: 0 auto;
 }
+
+/*design da parte onde tem os dois container dos sintomas e parte do precausoes*/
+#container_sin_pre{
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 25px 0;
+    padding: 25px 0;
+    border-style: none;
+    border-radius: 15px;
+}
+
+.container_figuras{
+ outline: olive 1px solid;
+ width: 55%;
+ display: flex;
+ justify-content: space-around;
+ flex-wrap: wrap;
+ align-content: center;
+}
+.img_sintoma{
+    border-radius: 40%;
+    border:none;
+    background-color: rgb(0, 0, 0);
+}
+.img_sintoma1{
+    border-radius: 40%;
+    border:none;
+    background-color: rgb(255, 255, 255);
+}
+.container_recomendacao{
+ width: 45%;
+ padding: 25px;
+ display: flex;
+ flex-wrap: wrap;
+ flex-direction: row;
+
+}
+.recomendacoes{
+   
+    width: 60%;
+    text-indent: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.medico_instrucao{
+
+    width: 40%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+/* FIM design da parte onde tem os dois container dos sintomas e parte do precausoes*/
+
+
+
+
+
+
+
+
 #painel{
     position: relative;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  outline: goldenrod 2px solid ;
-    width: 80%;
     min-height: 500px;
 }
 #estatistica{
@@ -35,10 +105,10 @@ body{
     height: 200px;
     padding: 10px;
     color: black;
-    background-color: white;
-    border: none;
+    background-color: rgba(255, 255, 255, .6);
+    box-shadow: 0 8px 32px 0 rgba( 225, 255, 255, 0.37 );
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
     border-radius: 15px;
-  
     text-align: center;
 }
 
@@ -47,13 +117,16 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, .4);
+    box-shadow: 0 8px 32px 0 rgba( 225, 255, 255, 0.37 );
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
     border-radius: 15px;
     border: none;
-    outline: rgb(163, 18, 18) 3px solid;
+
 }
 .header_estatistica_regiao{
-   background: chartreuse;
+  
+   text-align: center;
 }
 
 #mapa_regiao{
@@ -62,29 +135,25 @@ body{
     flex-wrap: wrap;
     padding: 15px;
     position: relative;
-    background-color: cornflowerblue;
 }
 .mapa{
-    outline: 5px solid red;
     width: 40%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    background-color: cornsilk;
+
 }
 
 .container_regioes{
-    outline: 2px solid green;
     width: 60%;
     padding: 15px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    background-color: rgb(248, 215, 82);
+
 
 }
 .header_regioes{
-    background-color: rgb(13, 155, 136);
     width: 100%;
     height: 40px;
     display: flex;
@@ -96,11 +165,11 @@ body{
 }
 .column1{
     width: 100px;
-    outline: 1px solid floralwhite;
+ 
 }
 .column2{
     width: 100px;
-    outline: forestgreen 1px solid ;
+    
 }
 .column3{
     width: 150px;
@@ -108,12 +177,10 @@ body{
 .regioes{
     display: flex;
     flex-direction: column;
-    background-color: crimson;
     justify-content: flex-start;
     height: 80%;
 }
 .regiao{
-    background-color: wheat;
     margin: 5px 0;
     display: flex;
     justify-content: space-between;
@@ -122,7 +189,7 @@ body{
     display: flex;
     justify-self: flex-start;
     position: relative;
-    outline: fuchsia 1px solid;
+
 }
 
 .casos_regiao{
@@ -130,9 +197,33 @@ body{
     justify-content: flex-end;
 }
 .regiao:not(:last-child){
-    border-bottom: .8px solid rgb(62, 27, 218);
+    border-bottom: .8px solid rgb(112, 111, 116);
 }
 .regioes .regiao:not(:first-child) .nome_regiao{
     margin-left: 25px;
 }
 
+
+
+
+/*aqui ficara a parte da secao de perguntas dos usuarios para os medicos*/
+
+#secao_perguntas{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    background-color: rgb(255, 255, 255);
+    margin: 25px 0;
+    border-radius: 25px;
+    border-style: none;
+}
+.medicos{
+    display: flex;
+}
+.pergunta{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
