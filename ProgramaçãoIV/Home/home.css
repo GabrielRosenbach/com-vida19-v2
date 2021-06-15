@@ -1,0 +1,138 @@
+*{
+    margin: 0;padding: 0;box-sizing: border-box;
+}
+body{
+    background-color: rgb(24, 135, 168);
+}
+#secao_principal{
+    display: block;
+    margin: 0px 25px;
+    
+    padding: 5px;
+}
+#painel{
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  outline: goldenrod 2px solid ;
+    width: 80%;
+    min-height: 500px;
+}
+#estatistica{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+     margin: 25px 0;
+}
+.cards{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: calc(25%-25px);
+    height: 200px;
+    padding: 10px;
+    color: black;
+    background-color: white;
+    border: none;
+    border-radius: 15px;
+  
+    text-align: center;
+}
+
+
+#estatistica_regiao{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #fff;
+    border-radius: 15px;
+    border: none;
+    outline: rgb(163, 18, 18) 3px solid;
+}
+.header_estatistica_regiao{
+   background: chartreuse;
+}
+
+#mapa_regiao{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 15px;
+    position: relative;
+    background-color: cornflowerblue;
+}
+.mapa{
+    outline: 5px solid red;
+    width: 40%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: cornsilk;
+}
+
+.container_regioes{
+    outline: 2px solid green;
+    width: 60%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: rgb(248, 215, 82);
+
+}
+.header_regioes{
+    background-color: rgb(13, 155, 136);
+    width: 100%;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.column{
+    text-align: center;
+}
+.column1{
+    width: 100px;
+    outline: 1px solid floralwhite;
+}
+.column2{
+    width: 100px;
+    outline: forestgreen 1px solid ;
+}
+.column3{
+    width: 150px;
+}
+.regioes{
+    display: flex;
+    flex-direction: column;
+    background-color: crimson;
+    justify-content: flex-start;
+    height: 80%;
+}
+.regiao{
+    background-color: wheat;
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+}
+.nome_regiao{
+    display: flex;
+    justify-self: flex-start;
+    position: relative;
+    outline: fuchsia 1px solid;
+}
+
+.casos_regiao{
+    display: flex;
+    justify-content: flex-end;
+}
+.regiao:not(:last-child){
+    border-bottom: .8px solid rgb(62, 27, 218);
+}
+.regioes .regiao:not(:first-child) .nome_regiao{
+    margin-left: 25px;
+}
+
