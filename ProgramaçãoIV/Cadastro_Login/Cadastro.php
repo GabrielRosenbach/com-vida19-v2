@@ -1,23 +1,22 @@
 <?php
 
-include_once("conecta.php");
 
-$login = $_POST['login'];
+include("conecta.php");
+
+$login = ucwords($_POST['login']); //coloca 1 letra da frase em maiuscula
 $email = $_POST['email'];
 $password = $_POST['password'];
+$tipo_user = 1;
 
-$sql = "INSERT INTO  usuario(email_usu, password_usu, login_usu, cod_tipo_usu) VALUES('$email', '$password','$login',1)";
+$sql = mysqli_query($conexao, "insert into usuario(login_usu,email_usu,senha_usu,cod_tipo_usu) values('$login','$email','$password','$tipo_user')");
 
-echo "nome:".$login;
-echo "email: $email";
-echo "password: $password";
-$salvar = mysqli_query($connection, $sql);
-
-if(mysqli_insert_id($connection)){
-    header("Location: Cadastro_Login.html");
-}
-
-mysqli_close($connection);
-
-
+/*
+    if($sql){
+        echo "Usuário cadastrado!";
+        header('Location: Cadastro_Login');
+    }
+    else{
+        echo "Não foi possivel cadastrar usuário verifique os campos digitados."
+        header('Location: Cadastro_Login');
+    }*/
 ?>
