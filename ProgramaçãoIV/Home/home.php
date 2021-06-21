@@ -55,7 +55,7 @@
                     <div class="menu">
                         <ul>
                             <li>
-                                <a href="../Perfil/perfil.html">
+                                <a href="../Perfil/perfil.php">
                                     <i class='bx bxs-user' ></i>
                                     <span class="links_nome">Acessar meu perfil</span>
                                 </a>
