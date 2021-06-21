@@ -26,7 +26,7 @@
                 $estado = $rows['nome_est'];
             }
         }
-        if($gen_pac = 'F'){
+        if($gen_pac == 'F'){
             $gen_pac = 'Feminino';
         }else $gen_pac = 'Masculino';
         
@@ -61,7 +61,14 @@
         <a href="../Home/home.php"><img src="seta_voltar.png" alt="seta_voltar" class="seta_voltar"></a>
         <section id="principal">
             <div class="container_foto">
-                <img src="avatar_fem.png" alt="">
+
+                <?php  
+                    if($gen_pac == 'Masculino'){
+                        echo '<img src="avatar_masc.png" alt="">';
+                    }else echo '<img src="avatar_fem.png" alt="">';
+                ?>
+                
+
                 <img src="pencil.jpg" alt="" width="32px" class="troca_avatar">
             </div>
             <div class="container_geral_info">
