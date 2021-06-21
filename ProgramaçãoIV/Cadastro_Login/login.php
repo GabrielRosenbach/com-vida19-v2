@@ -9,7 +9,7 @@ if($rows){
     while($dados=mysqli_fetch_assoc($sql)){
         session_start();                            //ira iniciar a sessao
         $_SESSION['login'] = $dados['login_usu'];      //passara esses parametros login 
-        $_SESSION['password'] = $dados['senha_usu'];    // e senha
+        $_SESSION['cod_usu'] = $dados['cod_usu']; 
         header("Location: ../Home/home.php");   //será direcionado para a página home
     }
 }else {

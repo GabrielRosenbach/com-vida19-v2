@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Formulário</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="formulario.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="title">
+                Coloque seu dados abaixo
+            </div>
+            <form action="formulario.php" method="POST">
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">Nome Completo:</span>
+                        <input type="text" name="nome" id="nome" placeholder="Digite aqui seu nome...">   
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Altura:</span>
+                        <input type="number" name="altura" id="altura" placeholder="Digite aqui sua altura...">   
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Peso:</span>
+                        <input type="number" name="peso" id="peso" placeholder="Digite aqui seu peso...">   
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Data Nascimento:</span>
+                        <input type="date" name="data" id="data" placeholder="Digite aqui sua data de nascimento...">   
+                    </div>
+                    <div class="genero">
+                        <span class="details">Gênero:</span>
+                       <div class="generos"><label for="masculino"><input type="radio" name="genero" id="masculino" value="M">Masculino</label>
+                        <label for="feminino"><input type="radio" name="genero" id="feminino" value="F">Feminino</label></div> 
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Rua:</span>
+                        <input type="text" name="rua" id="rua" placeholder="Digite aqui nome da rua...">   
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Número:</span>
+                        <input type="number" name="numero" id="numero" placeholder="Digite aqui número...">   
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Bairro:</span>
+                        <input type="text" name="bairro" id="bairro" placeholder="Digite aqui nome do bairro...">   
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Complemento:</span>
+                        <input type="text" name="complemento" id="complemento" placeholder="Digite aqui o complemento do endereço...">   
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Telefone:</span>
+                        <input type="tel" name="telefone" id="telefone" placeholder="Digite aqui seu nome...">   
+                    </div>
+
+                    <!--parte do estado e cidade-->
+                    <label for="cod_estados">Estado:</label>
+                    <select name="cod_estados" id="cod_estados">
+                        <option value=""></option>
+                        <?php
+                            $sql_est = "SELECT cod_est, nom_est
+                                    FROM estado
+                                    ORDER BY nom_est";
+                            $res_est = mysqli_query($conexao, $sql_est );
+                            while ( $row_est = mysqli_fetch_assoc( $res_est ) ) {
+                                echo '<option value="'.$row['cod_estados'].'">'.$row_est['nom_est'].'</option>';
+                            }
+                        ?>
+                    </select>
+                    <label for="cod_estados">Cidade:</label>
+                    <select name="cod_cidade" id="cod_cidade">
+                        <option value=""></option>
+                        <?php
+                            $sql_cid = "SELECT cod_cid, nom_cid
+                                    FROM cidade
+                                    ORDER BY nom_cid";
+                            $res_cid = mysqli_query($conexao, $sql_cid );
+                            while ( $row_cid = mysqli_fetch_assoc( $res_cid ) ) {
+                                echo '<option value="'.$row['cod_estados'].'">'.$row_cid['nom_cid'].'</option>';
+                            }
+                        ?>
+                    </select>
+
+                </div><!--fim user details-->
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </body>
+</html>
+

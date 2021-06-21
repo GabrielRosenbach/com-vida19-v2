@@ -1,90 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Ubuntu:wght@300&display=swap');
+
 *{
-    margin: 0;padding: 0;box-sizing: border-box;
+    margin: 0%;padding: 0%;box-sizing: border-box;font-family: 'Poppins', sans-serif;
 }
-body{
-    /*background: linear-gradient(to right,#159957,#155799);*/
-  /*  background: linear-gradient(to right,#000046,#1CB5E0);*/
- background: linear-gradient(to right,#007991,#78ffd6);
- /* background: linear-gradient(to right,#4AC29A,#BDFFF3);*/
+:root{
+    --background_geral: rgb(16, 148, 115);
+
+    --background_menu: rgb(0, 0, 0);
+   --cards_color_background:rgb(0, 0, 0);
+   --cards_box_shadow: rgba(21, 131, 165, 0.377);
+   --cards_border:rgba(23, 141, 156, 0);
+   --colors_text:rgb(255, 255, 255);
+   --esta_regiao_background:var(--cards_color_background);
+   --esta_regiao_box_shadow:var(--cards_box_shadow);
+   --esta_regiao_border:var(--cards_border);
+
+   --colors_text_tooltip: #000;
 }
-#secao_principal{
-    display: block;
-    margin: 0px 25px;
-    padding: 5px;
-    width: 80%;
-    margin: 0 auto;
+#container_principal{
+    background:var(--background_geral);
 }
 
-/*design da parte onde tem os dois container dos sintomas e parte do precausoes*/
-#container_sin_pre{
-    background-color: #fff;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    margin: 25px 0;
-    padding: 25px 0;
-    border-style: none;
-    border-radius: 15px;
-}
-
-.container_figuras{
- outline: olive 1px solid;
- width: 55%;
- display: flex;
- justify-content: space-around;
- flex-wrap: wrap;
- align-content: center;
-}
-.img_sintoma{
-    border-radius: 40%;
-    border:none;
-    background-color: rgb(0, 0, 0);
-}
-.img_sintoma1{
-    border-radius: 40%;
-    border:none;
-    background-color: rgb(255, 255, 255);
-}
-.container_recomendacao{
- width: 45%;
- padding: 25px;
- display: flex;
- flex-wrap: wrap;
- flex-direction: row;
-
-}
-.recomendacoes{
-   
-    width: 60%;
-    text-indent: 15px;
-    font-size: 15px;
-    font-weight: bold;
+/*formatacoes do menu lateral*/
+#container_menu{
+    background: var(--background_menu);
+    position: fixed;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    margin-top: 50px;
+    width: 60px;
+    padding: 4px 5px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    transition: all 0.5s ease;
+    color: var(--colors_text);
 }
-.medico_instrucao{
-
-    width: 40%;
+.container_logo{
     display: flex;
-    justify-content: flex-end;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+.logo{
+    font-size: 25px;
+    display: none;
+}
+.botao_menu{
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
 }
 
 
-/* FIM design da parte onde tem os dois container dos sintomas e parte do precausoes*/
+.container_perfil_lista{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.container_perfil{
+
+    flex-direction: column;
+    display: none;
+}
+
+.foto_perfil{   /*aqui onde estara a foto do perfil do usuario*/
+    height: 150px;
+    align-self: center;
+}
+.informacao_perfil{ /*e um container para informacoes que o usuario tem nome idade etc*/
+    display: flex;
+    flex-direction: column;
+   
+    height: 70px;
+    align-items: center;
+}
+.perfil_informacao{/*informacoes do user idade genero altura peso*/
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-evenly;
+}
+
+.menu{
+    display: flex;
+    flex-direction: row;
+    margin-top: 9px;
+}
+.menu ul{
+    list-style: none;
+}
+.menu ul li{
+    height: 50px;
+    width: 100%;
+    position: relative;
+
+}
+.menu a{
+    color: #fff;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition:  all .4s ease;
+    
+}
+.menu a:hover{
+    background-color: #fff;
+    border-radius: 15px;
+    color: black;
+}
+.menu a i{
+    height: 50px;
+    min-width: 50px;
+    text-align: center;
+    line-height: 50px;
+} 
+.links_nome{
+    display: none;
+    margin-right: 20px;
+}
+
+.tooltip{
+    position: absolute;
+    left: 122px;
+    top: 0;
+    transform: translateX(-50%);
+    width: 122px;
+    background: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    line-height: 35px;
+    text-align: center;
+    transition: 0s;
+    opacity: 0;
+    pointer-events: none;
+    color: var(--colors_text_tooltip);
+}
+.menu li:hover .tooltip{ /*para quando o menu estiver pequeno o user mover o mouse em cima dos links aparece o toolkit*/
+    top: 50%;
+    transition: all .5s ease;
+    opacity: 1;
+
+}
+
+
+.container_sair{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    
+}
+.container_sair img{
+    align-self: center;
+    cursor: pointer;
+}
+.sair{
+    display: none;
+}
+
+/*o menu ira iniciar pequeno e quando clicado ira vir essas formatacoes*/
+#container_menu.active{
+    width: 200px;
+}
+#container_menu.active .tooltip{
+    opacity: 0;
+}
+#container_menu.active .links_nome{
+    display: block;
+}
+#container_menu.active .sair{
+    display: block;
+}
+#container_menu.active .container_sair{
+    justify-content: space-around;
+}
+#container_menu.active .container_perfil{
+    display: flex;
+}
+#container_menu.active .logo{
+    display: block;
+}
+
+/* fim formatacoes do menu lateral*/
 
 
 
-
-
-
-
+#secao_principal{
+    display: block;
+    padding: 5px 0px;
+    width: 70%;
+    margin: 0 auto;
+}
 
 #painel{
     position: relative;
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -101,13 +213,13 @@ body{
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    width: calc(25%-25px);
     height: 200px;
+    margin: 0 3px;
     padding: 10px;
-    color: black;
-    background-color: rgba(255, 255, 255, .6);
-    box-shadow: 0 8px 32px 0 rgba( 225, 255, 255, 0.37 );
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    color: var(--colors_text);
+    background: var(--cards_color_background);
+    box-shadow: 0 4px 16px 0 var(--cards_box_shadow);
+    border: 1px solid var(--cards_border);
     border-radius: 15px;
     text-align: center;
 }
@@ -117,11 +229,12 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: rgba(255, 255, 255, .4);
-    box-shadow: 0 8px 32px 0 rgba( 225, 255, 255, 0.37 );
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    background-color: var(--esta_regiao_background);
+    box-shadow: 0 8px 32px 0 var( --esta_regiao_box_shadow);
+    border: 1px solid var(--esta_regiao_border);
     border-radius: 15px;
     border: none;
+    color: var(--colors_text);
 
 }
 .header_estatistica_regiao{
@@ -137,7 +250,7 @@ body{
     position: relative;
 }
 .mapa{
-    width: 40%;
+    width: 30%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -145,12 +258,12 @@ body{
 }
 
 .container_regioes{
-    width: 60%;
+    width: 70%;
     padding: 15px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-
+    
 
 }
 .header_regioes{
@@ -179,17 +292,20 @@ body{
     flex-direction: column;
     justify-content: flex-start;
     height: 80%;
+
+    margin-top: 10px;
 }
 .regiao{
     margin: 5px 0;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 .nome_regiao{
     display: flex;
     justify-self: flex-start;
     position: relative;
-
+    font-family: 'Ubuntu', sans-serif;
 }
 
 .casos_regiao{
@@ -202,6 +318,44 @@ body{
 .regioes .regiao:not(:first-child) .nome_regiao{
     margin-left: 25px;
 }
+.seta_regiao{
+    display: flex;
+}
+.estado{
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    
+}
+.nome_estado{
+    margin-left: 60px;
+   
+}
+.casos_estado{
+    display: flex;
+  
+}
+.estados{
+    width: 100%;
+    display: none;
+}
+.estado_sul.active{
+    display: block;
+}
+.estado_norte.active{
+    display: block;
+}
+.estado_sudeste.active{
+    display: block;
+}
+.estado_nordeste.active{
+    display: block;
+}
+.estado_centro.active{
+    display: block;
+}
+
 
 
 
@@ -213,10 +367,14 @@ body{
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
-    background-color: rgb(255, 255, 255);
+    background: var(--cards_color_background);
+    box-shadow: 0 4px 16px 0 var(--cards_box_shadow);
+    border: 1px solid var(--cards_border);
     margin: 25px 0;
     border-radius: 25px;
     border-style: none;
+    color: var(--colors_text);
+    padding: 25px;
 }
 .medicos{
     display: flex;
@@ -227,3 +385,23 @@ body{
     align-items: center;
     justify-content: space-around;
 }
+
+#container_lateral{
+    width: 180px;
+    background: yellowgreen;
+    position: fixed;
+    top: 0%;
+    right: 0;
+    display: flex;
+
+}
+
+
+
+
+
+
+
+
+
+
