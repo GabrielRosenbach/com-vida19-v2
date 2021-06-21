@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Perfil</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="perfil.css">
+    </head>
+    <?php
+        session_start();
+        echo $_SESSION['cod_usu'];
+    ?>
+    <body>
+        <a href="../Home/home.html"><img src="seta_voltar.png" alt="seta_voltar" class="seta_voltar"></a>
+        <section id="principal">
+            <div class="container_foto">
+                <img src="avatar_fem.png" alt="">
+                <img src="pencil.jpg" alt="" width="32px" class="troca_avatar">
+            </div>
+            <div class="container_geral_info">
+                <div class="informacao_perfil container">
+                    <div class="perfil_nome"><div class="info_perfil">Nome:</div></div>
+                    
+                    <div class="informacoes">
+                        <div class="container_info_perfil">
+                            <div class="info_perfil">Idade:</div>
+                            <div class="info_perfil">Altura:</div>
+                        </div>
+                        
+                        <div class="container_info_perfil">
+                            <div class="info_perfil">Peso:</div>
+                            <div class="info_perfil">Gênero:</div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="endereco container">  
+                    <div class="container_info_perfil">
+                        <div class="info_end">Estado:asdsd</div>
+                        <div class="info_end">Cidade:asdasdsadasdsd</div>
+                        <div class="info_end">Bairro:asdasdsdsadasdsadsdsa</div>
+                    </div>
+                    <div class="container_info_perfil">
+                        <div class="info_end">Rua:asdasdsadasdsd</div>
+                        <div class="info_end">Complemento:asdasdsadasdsd</div>
+                        <div class="info_end">Número:asdasdsadasdsd</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>
