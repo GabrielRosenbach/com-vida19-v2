@@ -21,4 +21,12 @@ $(document).ready(function () {
   $("#produto_quantidade").change(function (e) {
     $("#valorPedido").html($(this).val() * $("#valorProduto").html());
   });
+
+  $("#produto_quantidade").change(function (e) {
+    $("#valorPedido").html($(this).val() * $("#valorProduto").html());
+  });
+
 });
+
+
+

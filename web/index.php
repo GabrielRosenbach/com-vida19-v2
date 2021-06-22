@@ -7,29 +7,41 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.rtl.min.css">
+    <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="css/bootstrap-reboot.rtl.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/bootstrap-utilities.min.css">
+    <link rel="stylesheet" href="css/bootstrap-utilities.rtl.min.css">
+    <link rel="stylesheet" href="css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed" role="navigation">
-		<div class="container">
-			<div class="navbar-header">
-				<button class="navbar-toggle" style="background-color: white; height: 30px; width: 40px; padding: 4px; border-radius: 5px;" data-toggle="collapse" data-target="#navbar">
-					<i class="fas fa-bars fa-1x" style="font-size: 20px;"></i>
-				</button>
-				<a href="index.php" class="navbar-brand">COM VIDA 19</a>
-			</div>
-			<div id="navbar" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">          
-					<li><a href="index.php">Home</a></li>
-					<li><a href="cadastrar.php" data-toggle="modal" data-target="#myModal" class="show-modal">Cadastrar</a></li>
-					<li><a href="pedidosForm.php">Login</a></li>
-					<li><a href="produtoForm.php">Perfil</a></li>
-					<li><a href="produtoForm.php">Sintomas</a></li>
-					<li><a href="clienteForm.php">Consultar</a></li>
-				</ul>
-			</div><!--/.navbar-collapse -->
-		</div>
-    </nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="home.php">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" onClick="abrirPag('public/conta/contaForm.php');" href="#">Cadastrar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" onClick="abrirPag('public/login/loginForm.php');" href="#">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" onClick="abrirPag('private/prontuario/prontuarioForm.php');" href="#">Prontuário</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 <main class="container">
 </main>
 <hr>
@@ -44,6 +56,7 @@
 <script>
   window.jQuery || document.write('<script src="js/jquery-1.11.2.min.js"><\/script>')
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.min.js"></script>
 <script src="https://kit.fontawesome.com/990feebce6.js" crossorigin="anonymous"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/main.js"></script>

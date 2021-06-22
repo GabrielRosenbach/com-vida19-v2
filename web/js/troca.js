@@ -3,8 +3,6 @@ function abrirPag(pagina){
 	$("main").load(pagina);
 }
 
-
-
 $("document").ready(function($) {
 	var nav = $('#menufixo');
 	
