@@ -1,191 +1,534 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
-    <?php
-    /*aqui ira verificar se o usuario esta logado para que nao consigam burlar o sistema digitando direto na url a página home*/
-        session_start();
-        if((!isset ($_SESSION['login']) == true) and (!isset($_SESSION['password']) == true)){
-            unset($_SESSION['login']);
-            unset($_SESSION['password']);
-           header('Location: ../Cadastro_Login/Cadastro_Login.html');
-        }
-        $logado = $_SESSION['login'];
-        include ("../Cadastro_Login/conecta.php");
-    ?>
     <head>
-        <title>CMorbus19</title>
+        <title>Home</title>
         <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="home.css">
+        <link rel="stylesheet" href="home.css">
+        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     </head>
+    <?php
+        /*aqui ira verificar se o usuario esta logado para que nao consigam burlar o sistema digitando direto na url a página home*/
+            session_start();
+            if((!isset ($_SESSION['login']) == true) and (!isset($_SESSION['password']) == true)){
+                unset($_SESSION['login']);
+                unset($_SESSION['password']);
+               header('Location: ../Cadastro_Login/Cadastro_Login.html');
+            }
+            $logado = $_SESSION['login'];
+            
+            include ("../Cadastro_Login/conecta.php");
+            $codigo = $_SESSION['cod_usu'];
+            
+            /*no menu lateral tera uma pequena apresentacao das informacoes do user*/
+            $sql_perfil = mysqli_query($conexao,"select * from info_perfil_home_vw where cod_usu = '".$codigo."'");
+            if(mysqli_num_rows($sql_perfil)>0){
+                while($perfil = mysqli_fetch_assoc($sql_perfil)){
+                    $data_nas = $perfil['data_nasc_pac'];
+                    $peso = $perfil['peso_pac'];
+                    $altura = $perfil['alt_pac'];
+                    $gen_pac = $perfil['gen_pac'];
+                }
+            }
+           
+            function descobrirIdade($dataNascimento){
+                $data       = explode("-",$dataNascimento); // aqui ira separa dia mes ano colocando em um array
+                
+                $anoNasc    = $data[0];
+                $mesNasc    = $data[1];
+                $diaNasc    = $data[2];
+             
+                $anoAtual   = date("Y");
+                $mesAtual   = date("m");
+                $diaAtual   = date("d");
+             
+                $idade      = $anoAtual - $anoNasc; // ate aqui ele faz ano do nascimento - ano corrente
+             
+                if ($mesAtual < $mesNasc){ // ai aqui vem para o mes caso o user ainda nao fez aniversário
+                    $idade -= 1;
+                    return $idade;
+                } elseif ( ($mesAtual == $mesNasc) && ($diaAtual <= $diaNasc) ){
+                    $idade -= 1;
+                    return $idade;
+                }else
+                    return $idade;
+            }
+
+            $idade =  descobrirIdade($data_nas);
+
+        ?>
     <body>
-        <section id="secao_principal">
-            secao principal
-            
-           <section id="container_sin_pre"><!-- aqui ficará parte do sintomas, uma apresentação dos sintomas aos usuarios-->
+
         
-                <div class="container_figuras"><!--container dos sintomas-->
-                    <img src="Febre.png" alt="Pessoa com Febre" width=120px class="img_sintoma1">
-                    <img src="tossir.png" alt="Pessoa com Febre" width=120px class="img_sintoma">
-                    <img src="dor_corpo.png" alt="Pessoa com Febre" width=120px class="img_sintoma">
-                    <img src="falta_ar.png" alt="Pessoa com Febre" width=120px class="img_sintoma">
-                </div>
-                <div class="container_recomendacao">
+        <section id="container_principal">
+            <header id="container_menu">
 
-                    <div class="recomendacoes">
-                        <p class="recomendacao">Se tiveres algum dos sintomas descritos ao lado,sugerimos que siga as intruções de como se proteger e também de como não transmitir a doença a outras pessoas e  pedimos que procure um médico imediatamente.</p>
-                        <p class="recomendacao">E se quiseres poderá nos informar como está sua situação logo abaixo na página</p>
-                    </div>
 
-                    <div class="medico_instrucao">
-                        <img src="Med_instrucoes.png" width=200px height=400px alt="Medico_instrucoes" class="img_med_instucao">
-                    </div>
-                </div>
-           </section> 
-            
-           <section id="container_sin_pre"><!-- aqui ficará parte das precausoes, uma apresentação das precausoes a serem tomadas aos usuarios-->
-        
-                <div class="container_figuras"><!--container dos precausoes-->
-                    <img src="tossir_cotovelo.png" alt="Pessoa com Febre" width=120px class="img_sintoma1">
-                    <img src="tossir_cotovelo.png" alt="Pessoa com Febre" width=120px class="img_sintoma">
-                    <img src="tossir_cotovelo.png" alt="Pessoa com Febre" width=120px class="img_sintoma">
-                    <img src="tossir_cotovelo.png" alt="Pessoa com Febre" width=120px class="img_sintoma">
-                </div>
-                <div class="container_recomendacao">
-
-                    <div class="recomendacoes">
-                        <p class="recomendacao">Fique seguro, fique em casa</p>
-                    </div>
-
-                    <div class="medico_instrucao">
-                        <img src="Norse_instrucao.png" width=200px height=400px alt="Medico_instrucoes" class="img_med_instucao">
-                    </div>
-                </div>
-            </section> 
-
-            <article id="painel"><!--CONTERÁ ESTATISTICAS CASOS NOVOS RECUPERADOS GERAL  E POR REGIOES-->
-                painel    
-            <section id="estatistica"><!--ESTATISTICAS CASOS RECUPERADOS CONFIRMADOS  GERAL-->
-                    <div class="cards">
-                        <?php
-                          $sql_sus =  mysqli_num_rows(mysqli_query($conexao,"select * from paciente p inner join status s on p.cod_status = s.cod_status where s.des_status = 'Suspeito'"));   
-                        ?>
-                        <h2>Casos suspeitos</h2>
-                        <div><?=  ($sql_sus); ?></div>
-                    </div>
-                    <div class="cards">
-                        <?php
-                          $sql_con = mysqli_num_rows(mysqli_query($conexao,"select * from paciente p inner join status s on p.cod_status = s.cod_status where s.des_status = 'Confirmado'"));
-                        ?>
-                        <h2>Casos confirmados</h2>
-                        <div><?= ($sql_con); ?></div>
-                    </div>  
-                    <div class="cards">
-                        <?php
-                          $sql_rec =  mysqli_num_rows(mysqli_query($conexao,"select * from paciente p inner join status s on p.cod_status = s.cod_status where s.des_status = 'Recuperado'"));   
-                        ?>
-                        <h2>Casos recuperados</h2>
-                        <div><?= ($sql_rec);?></div>
-                    </div>
-                    <div class="cards">
-                        <h2>Casos Ativos</h2>
-                        <div><?= (($sql_con)-($sql_rec));?></div>
-                    </div>
-                </section>
-        
-                <section id="estatistica_regiao"><!--ESTATISTICAS POR REGIOES-->
-                    <div class="header_estatistica_regiao">
-                        <h2>Veja os casos por regiões</h2>
-                    </div>
-                    <section id="mapa_regiao">
-                        <div class="mapa">
-                            <img src="southamerica.svg" alt="southamerica" class="img_mapa">
+               <div class="container_logo">
+                   <div class="logo">Comvida19</div>
+                   <div class="botao_menu" ><img src="images/botao_menu.png" width="20px" id="btn_menu" ></div>
+               </div>
+               
+               <div class="container_perfil_lista">
+                    <div class="container_perfil">
+                        <div class="foto_perfil">
+                        <?php  
+                                if($gen_pac == 'M'){
+                                    echo '<img src="../Perfil/avatar_masc.png" alt="" width="140px">';
+                                }else echo '<img src="../Perfil/avatar_fem.png" alt="" width="140px">';
+                            ?>
                         </div>
-                        <div class="container_regioes">
-                            container_regioes
-                            <div class="header_regioes">
-                                header regioes<div class="column1 column">Total de casos</div><div class="column2 column">Casos ativos</div><div class="column3 column">Casos recuperados</div>
+                        <div class="informacao_perfil">
+                            <div class="perfil_nome">
+                                <span class="informacao"><?= $_SESSION['login']; ?></span>
                             </div>
-                            <div class="regioes">
-                                regioes
-                                <div class="regiao">
-                                    <div class="nome_regiao">
-                                        Brasil
-                                    </div>
-                                    <div class="casos_regiao">
-                                        <div class="column1 column">32145</div>
-                                        <div class="column2 column">32145</div>
-                                        <div class="column3 column">32145</div>
-                                    </div>
-                                </div>
-                                <div class="regiao  ">
-                                    <div class="nome_regiao margin">
-                                        Norte
-                                    </div>
-                                    <div class="casos_regiao margin">
-                                        <div class="column1 column">32145</div>
-                                        <div class="column2 column">32145</div>
-                                        <div class="column3 column">32145</div>
-                                    </div>
-                                </div>
-                                <div class="regiao  ">
-                                    <div class="nome_regiao margin">
-                                        Nordeste
-                                    </div>
-                                    <div class="casos_regiao ">
-                                        <div class="column1 column">32145</div>
-                                        <div class="column2 column">32145</div>
-                                        <div class="column3 column">32145</div>
-                                    </div>
-                                </div>
-                                <div class="regiao  ">
-                                    <div class="nome_regiao margin">
-                                        Sudeste
-                                    </div>
-                                    <div class="casos_regiao">
-                                        <div class="column1 column">32145</div>
-                                        <div class="column2 column">32145</div>
-                                        <div class="column3 column">32145</div>
-                                    </div>
-                                </div>
-                                <div class="regiao  ">
-                                    <div class="nome_regiao ">
-                                        Centro-Oeste
-                                    </div>
-                                    <div class="casos_regiao">
-                                        <div class="column1 column">32145</div>
-                                        <div class="column2 column">32145</div>
-                                        <div class="column3 column">32145</div>
-                                    </div>
-                                </div>
-                                <div class="regiao  ">
-                                    <div class="nome_regiao">
-                                        Sul
-                                    </div>
-                                    <div class="casos_regiao">
-                                        <div class="column1 column">32145</div>
-                                        <div class="column2 column">32145</div>
-                                        <div class="column3 column">32145</div>
-                                    </div>
-                                </div>
+                            <div class="perfil_informacao">
+                                <span class="informacao">Idade: <?= $idade ?> </span>
+                                <span class="informacao">Peso: <?= $peso?></span>
                             </div>
+                            <div class="perfil_informacao">
+                                <span class="informacao">Genero: <?= $gen_pac ?></span>
+                                <span class="informacao">Altura: <?= $altura ?></span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="menu">
+                        <ul>
+                            <li>
+                                <a href="../Perfil/perfil.php">
+                                    <i class='bx bxs-user' ></i>
+                                    <span class="links_nome">Acessar meu perfil</span>
+                                </a>
+                                <span class="tooltip">Meu perfil</span>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class='bx bx-message-alt-detail' ></i>
+                                    <span class="links_nome">Acessar meu perfil</span>
+                                </a>
+                                <span class="tooltip">Acessar meu perfil</span>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class='bx bxs-user' ></i>
+                                    <span class="links_nome">Acessar meu perfil</span>
+                                </a>
+                                <span class="tooltip">Acessar meu perfil</span>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class='bx bxs-user' ></i>
+                                    <span class="links_nome">Acessar meu perfil</span>
+                                </a>
+                                <span class="tooltip">Acessar meu perfil</span>
+                            </li>
+                        </ul>
+                    </div>
+               
+                </div>
+               
+
+                <div class="container_sair">
+                    <div class="sair">Aperte para sair</div>
+                    
+                    <img src="images/log-out.png" alt="" width="25px">
+                </div>
+
+            </header>
+
+
+
+
+
+            <section id="secao_principal">
+                <article id="painel"><!--CONTERÁ ESTATISTICAS CASOS NOVOS RECUPERADOS GERAL  E POR REGIOES--> 
+                <section id="estatistica"><!--ESTATISTICAS CASOS RECUPERADOS CONFIRMADOS  GERAL-->
+                        <div class="cards">
+                            <?php
+                              $sql_sus =  mysqli_num_rows(mysqli_query($conexao,"select * from paciente p inner join status s on p.cod_status = s.cod_status where s.des_status = 'Suspeito'"));   
+                            ?>
+                            <h2>Casos suspeitos</h2>
+                            <div><?=  ($sql_sus); ?></div>
+                        </div>
+                        <div class="cards">
+                            <?php
+                              $sql_con = mysqli_num_rows(mysqli_query($conexao,"select * from paciente p inner join status s on p.cod_status = s.cod_status where s.des_status = 'Confirmado'"));
+                            ?>
+                            <h2>Casos confirmados</h2>
+                            <div><?= ($sql_con); ?></div>
+                        </div>  
+                        <div class="cards">
+                            <?php
+                              $sql_rec =  mysqli_num_rows(mysqli_query($conexao,"select * from paciente p inner join status s on p.cod_status = s.cod_status where s.des_status = 'Recuperado'"));   
+                            ?>
+                            <h2>Casos recuperados</h2>
+                            <div><?= ($sql_rec);?></div>
+                        </div>
+                        <div class="cards">
+                            <h2>Casos Ativos</h2>
+                            <div><?= (($sql_con)-($sql_rec));?></div>
                         </div>
                     </section>
+            
+                    <section id="estatistica_regiao"><!--ESTATISTICAS POR REGIOES-->
+                        <div class="header_estatistica_regiao">
+                            <h2>Veja os casos por regiões</h2>
+                        </div>
+                        <section id="mapa_regiao">
+                            <div class="mapa">
+                                <img src="images/southamerica.png" alt="southamerica" class="img_mapa">
+                            </div>
+                            <div class="container_regioes">
+                              
+                                <div class="header_regioes">
+                                    <div class="column1 column">Total de casos</div><div class="column2 column">Casos ativos</div><div class="column3 column">Casos recuperados</div>
+                                </div>
+                                <div class="regioes">
+                                    <!--Brasil-->
+                                    <div class="regiao">
+                                        <div class="nome_regiao">
+                                            Brasil
+                                        </div>
+                                        <div class="casos_regiao">
+                                            <div class="column1 column">32145</div>
+                                            <div class="column2 column">32145</div>
+                                            <div class="column3 column">32145</div>
+                                        </div>
+                                    </div>
+                                    <!--Norte-->
+                                    <div class="regiao">
+                                        <div class="seta_regiao">
+                                            <div class="seta_norte">
+                                                <img src="images/seta_estado.png" alt="" width="20px">
+                                            </div>
+                                            <div class="nome_regiao">
+                                                Norte
+                                            </div>
+                                        </div>
+                                        <div class="casos_regiao">
+                                            <div class="column1 column">32145</div>
+                                            <div class="column2 column">32145</div>
+                                            <div class="column3 column">32145</div>
+                                        </div>
+
+                                        <div class="estado_norte estados">
+                                            <div class="estado">
+                                                <div class="nome_estado">
+                                                    Santa Catarina
+                                                </div>
+                                                <div class="casos_estado">
+                                                    <div class="column1 column">32145</div>
+                                                    <div class="column2 column">32145</div>
+                                                    <div class="column3 column">32145</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="estado">
+                                                <div class="nome_estado">
+                                                    Paraná
+                                                </div>
+                                                <div class="casos_estado">
+                                                    <div class="column1 column">32145</div>
+                                                    <div class="column2 column">32145</div>
+                                                    <div class="column3 column">32145</div>
+                                                </div>
+                                            </div>
+                                            <div class="estado">
+                                                <div class="nome_estado">
+                                                    Rio Grande so Sul
+                                                </div>
+                                                <div class="casos_estado">
+                                                    <div class="column1 column">32145</div>
+                                                    <div class="column2 column">32145</div>
+                                                    <div class="column3 column">32145</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!--Nordeste-->
+                                    <div class="regiao">
+                                        <div class="seta_regiao">
+                                            <div class="seta_nordeste">
+                                                <img src="images/seta_estado.png" alt="" width="20px">
+                                            </div>
+                                            <div class="nome_regiao">
+                                                Nordeste
+                                            </div>
+                                        </div>
+                                        <div class="casos_regiao">
+                                            <div class="column1 column">32145</div>
+                                            <div class="column2 column">32145</div>
+                                            <div class="column3 column">32145</div>
+                                        </div>
+
+                                        <div class="estado_nordeste estados">
+                                            <div class="estado">
+                                                <div class="nome_estado">
+                                                    Santa Catarina
+                                                </div>
+                                                <div class="casos_estado">
+                                                    <div class="column1 column">32145</div>
+                                                    <div class="column2 column">32145</div>
+                                                    <div class="column3 column">32145</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="estado">
+                                                <div class="nome_estado">
+                                                    Paraná
+                                                </div>
+                                                <div class="casos_estado">
+                                                    <div class="column1 column">32145</div>
+                                                    <div class="column2 column">32145</div>
+                                                    <div class="column3 column">32145</div>
+                                                </div>
+                                            </div>
+                                            <div class="estado">
+                                                <div class="nome_estado">
+                                                    Rio Grande so Sul
+                                                </div>
+                                                <div class="casos_estado">
+                                                    <div class="column1 column">32145</div>
+                                                    <div class="column2 column">32145</div>
+                                                    <div class="column3 column">32145</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!--Centro-Oeste-->
+                                    <div class="regiao">
+                                        <div class="seta_regiao">
+                                            <div class="seta_centro">
+                                                <img src="images/seta_estado.png" alt="" width="20px">
+                                            </div>
+                                            <div class="nome_regiao">
+                                                Centro-Oeste
+                                            </div>
+                                        </div>
+                                        <div class="casos_regiao">
+                                            <div class="column1 column">32145</div>
+                                            <div class="column2 column">32145</div>
+                                            <div class="column3 column">32145</div>
+                                        </div>
+
+                                        <div class="estado_centro estados">
+                                            <div class="estado">
+                                                <div class="nome_estado">
+                                                    Santa Catarina
+                                                </div>
+                                                <div class="casos_estado">
+                                                    <div class="column1 column">32145</div>
+                                                    <div class="column2 column">32145</div>
+                                                    <div class="column3 column">32145</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="estado">
+                                                <div class="nome_estado">
+                                                    Paraná
+                                                </div>
+                                                <div class="casos_estado">
+                                                    <div class="column1 column">32145</div>
+                                                    <div class="column2 column">32145</div>
+                                                    <div class="column3 column">32145</div>
+                                                </div>
+                                            </div>
+                                            <div class="estado">
+                                                <div class="nome_estado">
+                                                    Rio Grande so Sul
+                                                </div>
+                                                <div class="casos_estado">
+                                                    <div class="column1 column">32145</div>
+                                                    <div class="column2 column">32145</div>
+                                                    <div class="column3 column">32145</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!--Sudeste-->
+                                    <div class="regiao">
+                                        <div class="seta_regiao">
+                                            <div class="seta_sudeste">
+                                                <img src="images/seta_estado.png" alt="" width="20px">
+                                            </div>
+                                            <div class="nome_regiao">
+                                                Sudeste
+                                            </div>
+                                        </div>
+                                        <div class="casos_regiao">
+                                            <div class="column1 column">32145</div>
+                                            <div class="column2 column">32145</div>
+                                            <div class="column3 column">32145</div>
+                                        </div>
+
+                                        <div class="estado_sudeste estados">
+                                            <div class="estado">
+                                                <div class="nome_estado">
+                                                    Santa Catarina
+                                                </div>
+                                                <div class="casos_estado">
+                                                    <div class="column1 column">32145</div>
+                                                    <div class="column2 column">32145</div>
+                                                    <div class="column3 column">32145</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="estado">
+                                                <div class="nome_estado">
+                                                    Paraná
+                                                </div>
+                                                <div class="casos_estado">
+                                                    <div class="column1 column">32145</div>
+                                                    <div class="column2 column">32145</div>
+                                                    <div class="column3 column">32145</div>
+                                                </div>
+                                            </div>
+                                            <div class="estado">
+                                                <div class="nome_estado">
+                                                    Rio Grande so Sul
+                                                </div>
+                                                <div class="casos_estado">
+                                                    <div class="column1 column">32145</div>
+                                                    <div class="column2 column">32145</div>
+                                                    <div class="column3 column">32145</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!--Sul-->
+                                    <div class="regiao">
+                                        <div class="seta_regiao">
+                                            <div class="seta_sul">
+                                                <img src="images/seta_estado.png" alt="" width="20px">
+                                            </div>
+                                            <div class="nome_regiao">
+                                                Sul
+                                            </div>
+                                        </div>
+                                        <div class="casos_regiao">
+                                            <div class="column1 column">32145</div>
+                                            <div class="column2 column">32145</div>
+                                            <div class="column3 column">32145</div>
+                                        </div>
+
+                                        <div class="estado_sul estados">
+                                            <div class="estado">
+                                                <div class="nome_estado">
+                                                    Santa Catarina
+                                                </div>
+                                                <div class="casos_estado">
+                                                    <div class="column1 column">32145</div>
+                                                    <div class="column2 column">32145</div>
+                                                    <div class="column3 column">32145</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="estado">
+                                                <div class="nome_estado">
+                                                    Paraná
+                                                </div>
+                                                <div class="casos_estado">
+                                                    <div class="column1 column">32145</div>
+                                                    <div class="column2 column">32145</div>
+                                                    <div class="column3 column">32145</div>
+                                                </div>
+                                            </div>
+                                            <div class="estado">
+                                                <div class="nome_estado">
+                                                    Rio Grande so Sul
+                                                </div>
+                                                <div class="casos_estado">
+                                                    <div class="column1 column">32145</div>
+                                                    <div class="column2 column">32145</div>
+                                                    <div class="column3 column">32145</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                               
+                                </div>
+                            </div>
+                        </section>
+                    </section>
+                
+                    <section><!--com ajuda de api sera colocado casos do coronavirus-->
+                        
+                    </section>
+                
+                
+                </article><!--FIM DO ARTICLE PAINEL-->
+    
+                <section id="secao_perguntas"><!--secao das perguntas que os usuario poderao fazer aos médicos-->
+                    <div class="medicos">
+                        <img src="images/medicos.jpg" alt="medicos" width="350px">
+                    </div>
+                    <div class="pergunta">
+                        <h2>Deixe uma pergunta a nossa equipe médica!</h2>
+                        <form action="">
+                            <textarea name="pergunta" rows="10" cols="40">Deixe aqui sua pergunta...
+                            </textarea>
+                        </form>
+                    </div>
                 </section>
-            </article><!--FIM DO ARTICLE PAINEL-->
+            </section><!--Fim da secao principal-->
+           <aside id="container_lateral">
+               asdasdsd
+           </aside>
+          <div class="faq" style="position:fixed;bottom:5px;right:30px">
+              <img src="images/faq.png" alt="faq" class="faq_img" width="80px">
+          </div>
+        </section><!--Fim do container principal-->
+            
+<!--script para o menu barra lateral-->
+        <script> 
+            let btn_menu = document.querySelector("#btn_menu");
+            let drop_menu = document.querySelector("#container_menu");
 
-            <section id="secao_perguntas"><!--secao das perguntas que os usuario poderao fazer aos médicos-->
-                <div class="medicos">
-                    <img src="medicos.jpg" alt="medicos" >
-                </div>
-                <div class="pergunta">
-                    <h2>Deixe uma pergunta a nossa equipe médica!</h2>
-                    <form action="">
-                        <textarea name="pergunta" rows="10" cols="40">Deixe aqui sua pergunta...
-                        </textarea>
-                    </form>
-                </div>
-            </section>
 
-        </section><!--FIM DA SECAO PRINCIPAL-->
+            btn_menu.onclick = function(){
+                drop_menu.classList.toggle("active");
+            }
+            
+        </script>
+
+        <!--script para seta dos estados-->
+        <script>
+            let seta_sul = document.querySelector(".seta_sul");
+            let sul = document.querySelector(".estado_sul");
+
+            let seta_nordeste = document.querySelector(".seta_nordeste");
+            let nordeste = document.querySelector(".estado_nordeste");
+
+            let seta_centro = document.querySelector(".seta_centro");
+            let centro = document.querySelector(".estado_centro");
+
+            let seta_norte = document.querySelector(".seta_norte");
+            let norte = document.querySelector(".estado_norte");
+
+            let seta_sudeste = document.querySelector(".seta_sudeste");
+            let sudeste = document.querySelector(".estado_sudeste");
+
+            seta_sul.onclick = function(){
+                sul.classList.toggle("active");
+            }
+            seta_nordeste.onclick = function(){
+                nordeste.classList.toggle("active");
+            }
+            seta_norte.onclick = function(){
+                norte.classList.toggle("active");
+            }
+            seta_sudeste.onclick = function(){
+                sudeste.classList.toggle("active");
+            }
+            seta_centro.onclick = function(){
+                centro.classList.toggle("active");
+            }
+        </script>
     </body>
 </html>

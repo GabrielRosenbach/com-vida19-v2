@@ -1,0 +1,82 @@
+*{
+    margin: 0; padding: 0; box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+   
+}
+
+
+
+.container{
+    max-width: 700px;
+    width: 100%;
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+.container .title{
+    font-size: 25px;
+    font-weight: 500;
+    align-self: center;
+}
+form{
+    display: flex;
+    flex-direction: column;
+}
+
+.container form .user-details{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 35px 0;
+}
+
+form .user-details .input-box{
+    width: calc(100% / 2 );
+    margin-bottom: 15px;
+}
+.user-details .input-box .details{
+    font-weight: 500;
+    margin-bottom: 5px;
+    display: block;
+}
+.user-details .input-box input{
+    height: 45px;
+    width: 100%;
+     outline: none;
+     border-radius: 5px;
+     border: 1px solid #ccc;
+     padding-left:15px;
+     font-size: 16px;
+}
+.genero{
+    display: flex;
+    flex-direction: row;
+    width:50%;
+    align-items: center;
+    justify-content: space-evenly;
+  
+}
+.generos{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-evenly;
+   
+}
+
+button{
+font-size: 25px;
+width: 100px;
+height: 40px;
+align-self: center;
+}
