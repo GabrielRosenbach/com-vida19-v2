@@ -4,6 +4,8 @@
         <title>Formulário</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="formulario.css">
+        <!--para conectar apis dos locais( regiao,estado e cidade)-->
+        <script src="conecta_local.js" type="text/javascript"></script>
     </head>
     <body>
         <div class="container">
@@ -54,38 +56,66 @@
                         <input type="tel" name="telefone" id="telefone" placeholder="Digite aqui seu nome...">   
                     </div>
 
-                    <!--parte do estado e cidade-->
-                    <label for="cod_estados">Estado:</label>
-                    <select name="cod_estados" id="cod_estados">
-                        <option value=""></option>
-                        <?php
-                            $sql_est = "SELECT cod_est, nom_est
-                                    FROM estado
-                                    ORDER BY nom_est";
-                            $res_est = mysqli_query($conexao, $sql_est );
-                            while ( $row_est = mysqli_fetch_assoc( $res_est ) ) {
-                                echo '<option value="'.$row['cod_estados'].'">'.$row_est['nom_est'].'</option>';
-                            }
-                        ?>
-                    </select>
-                    <label for="cod_estados">Cidade:</label>
-                    <select name="cod_cidade" id="cod_cidade">
-                        <option value=""></option>
-                        <?php
-                            $sql_cid = "SELECT cod_cid, nom_cid
-                                    FROM cidade
-                                    ORDER BY nom_cid";
-                            $res_cid = mysqli_query($conexao, $sql_cid );
-                            while ( $row_cid = mysqli_fetch_assoc( $res_cid ) ) {
-                                echo '<option value="'.$row['cod_estados'].'">'.$row_cid['nom_cid'].'</option>';
-                            }
-                        ?>
-                    </select>
-
+                    <!--parte do regiao estado e cidade-->
+                   
+                    <div class="input-box">
+                        <span class="details">Região:</span>
+                        <select name="" id="regiao" onchange="javascript:mostraEstado(this);">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Estado:</span>
+                        <select name="" id="estado" onchange="javascript:mostraCidade(this);">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Cidade:</span>
+                        <select name="" id="cidade">
+                            <option value=""></option>
+                        </select>
+                    </div>
                 </div><!--fim user details-->
                 <button type="submit">Enviar</button>
             </form>
         </div>
+
+
+        <!--script para regiao-->
+  <script type="text/javascript"> 
+ 
+    myObj = (JSON.parse(fazGet("https://servicodados.ibge.gov.br/api/v1/localidades/regioes")));
+
+    console.log(myObj.length)
+
+   for(var i =0;i < myObj.length;i++){
+        document.querySelector("#regiao").innerHTML += "<option value="+myObj[i].id+">"+myObj[i].nome+"</option>";
+        console.log(myObj[i].nome)
+    }
+    
+   </script>
+   <!--script para estado-->
+   <script type="text/javascript">
+       function mostraEstado(elemento){
+           meuObj = (JSON.parse(fazGet("https://servicodados.ibge.gov.br/api/v1/localidades/regioes/"+ elemento.value+"/estados")));
+
+           console.log(meuObj.length)
+           for(j=0;j<meuObj.length;j++){
+               document.querySelector("#estado").innerHTML += "<option value="+meuObj[j].id+">"+meuObj[j].nome+"</option>";
+           }
+
+       }
+   </script>
+    <!--script para cidade-->
+   <script>
+       function mostraCidade(elemento){
+           mioObj = (JSON.parse(fazGet("https://servicodados.ibge.gov.br/api/v1/localidades/estados/"+ elemento.value+"/municipios")));
+           for(k=0;k<mioObj.length;k++){
+               document.querySelector("#cidade").innerHTML += "<option value="+mioObj[k].id+">"+mioObj[k].nome+"</option>";
+           }
+       }
+   </script>
     </body>
 </html>
 

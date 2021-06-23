@@ -18,43 +18,44 @@
             
             include ("../Cadastro_Login/conecta.php");
             $codigo = $_SESSION['cod_usu'];
-            
-            /*no menu lateral tera uma pequena apresentacao das informacoes do user*/
-            $sql_perfil = mysqli_query($conexao,"select * from info_perfil_home_vw where cod_usu = '".$codigo."'");
-            if(mysqli_num_rows($sql_perfil)>0){
-                while($perfil = mysqli_fetch_assoc($sql_perfil)){
-                    $data_nas = $perfil['data_nasc_pac'];
-                    $peso = $perfil['peso_pac'];
-                    $altura = $perfil['alt_pac'];
-                    $gen_pac = $perfil['gen_pac'];
-                }
-            }
-           
-            function descobrirIdade($dataNascimento){
-                $data       = explode("-",$dataNascimento); // aqui ira separa dia mes ano colocando em um array
+
+                        /*no menu lateral tera uma pequena apresentacao das informacoes do user*/
+                $sql_perfil = mysqli_query($conexao,"select * from info_perfil_home_vw where cod_usu = '".$codigo."'");
+                if(mysqli_num_rows($sql_perfil)>0){
+                    while($perfil = mysqli_fetch_assoc($sql_perfil)){
+                        $data_nas = $perfil['data_nasc_pac'];
+                        $peso = $perfil['peso_pac'];
+                        $altura = $perfil['alt_pac'];
+                        $gen_pac = $perfil['gen_pac'];
+                    }
                 
-                $anoNasc    = $data[0];
-                $mesNasc    = $data[1];
-                $diaNasc    = $data[2];
-             
-                $anoAtual   = date("Y");
-                $mesAtual   = date("m");
-                $diaAtual   = date("d");
-             
-                $idade      = $anoAtual - $anoNasc; // ate aqui ele faz ano do nascimento - ano corrente
-             
-                if ($mesAtual < $mesNasc){ // ai aqui vem para o mes caso o user ainda nao fez aniversário
-                    $idade -= 1;
-                    return $idade;
-                } elseif ( ($mesAtual == $mesNasc) && ($diaAtual <= $diaNasc) ){
-                    $idade -= 1;
-                    return $idade;
-                }else
-                    return $idade;
-            }
+            
+                    function descobrirIdade($dataNascimento){
+                        $data       = explode("-",$dataNascimento); // aqui ira separa dia mes ano colocando em um array
+                        
+                        $anoNasc    = $data[0];
+                        $mesNasc    = $data[1];
+                        $diaNasc    = $data[2];
+                    
+                        $anoAtual   = date("Y");
+                        $mesAtual   = date("m");
+                        $diaAtual   = date("d");
+                    
+                        $idade      = $anoAtual - $anoNasc; // ate aqui ele faz ano do nascimento - ano corrente
+                    
+                        if ($mesAtual < $mesNasc){ // ai aqui vem para o mes caso o user ainda nao fez aniversário
+                            $idade -= 1;
+                            return $idade;
+                        } elseif ( ($mesAtual == $mesNasc) && ($diaAtual <= $diaNasc) ){
+                            $idade -= 1;
+                            return $idade;
+                        }else
+                            return $idade;
+                    }
 
-            $idade =  descobrirIdade($data_nas);
-
+                    $idade =  descobrirIdade($data_nas);
+                }
+           
         ?>
     <body>
 
@@ -69,30 +70,36 @@
                </div>
                
                <div class="container_perfil_lista">
-                    <div class="container_perfil">
-                        <div class="foto_perfil">
-                        <?php  
-                                if($gen_pac == 'M'){
-                                    echo '<img src="../Perfil/avatar_masc.png" alt="" width="140px">';
-                                }else echo '<img src="../Perfil/avatar_fem.png" alt="" width="140px">';
-                            ?>
-                        </div>
-                        <div class="informacao_perfil">
-                            <div class="perfil_nome">
-                                <span class="informacao"><?= $_SESSION['login']; ?></span>
-                            </div>
-                            <div class="perfil_informacao">
-                                <span class="informacao">Idade: <?= $idade ?> </span>
-                                <span class="informacao">Peso: <?= $peso?></span>
-                            </div>
-                            <div class="perfil_informacao">
-                                <span class="informacao">Genero: <?= $gen_pac ?></span>
-                                <span class="informacao">Altura: <?= $altura ?></span>
-                            </div>
+                   <?php 
+                      if(mysqli_num_rows($sql_perfil)>0){
+                          echo "
+                            <div class='container_perfil'>
+                                <div class='foto_perfil'>";
+                               
+                                        if($gen_pac == 'M'){
+                                            echo '<img src="../Perfil/avatar_masc.png" alt="" width="140px">';
+                                        }else echo '<img src="../Perfil/avatar_fem.png" alt="" width="140px">';
+                                    
+                          echo "
+                                </div>
+                                <div class='informacao_perfil'>
+                                    <div class='perfil_nome'>
+                                        <span class='informacao'> ". $_SESSION['login']." </span>
+                                    </div>
+                                    <div class='perfil_informacao'>
+                                        <span class='informacao'>Idade: ". $idade." </span>
+                                        <span class='informacao'>Peso: ". $peso."</span>
+                                    </div>
+                                    <div class='perfil_informacao'>
+                                        <span class='informacao'>Genero: ". $gen_pac ."</span>
+                                        <span class='informacao'>Altura: ".  $altura ."</span>
+                                    </div>
 
-                        </div>
-                    </div>
-
+                                </div>
+                            </div>
+                            ";
+                        }
+                    ?>
                     <div class="menu">
                         <ul>
                             <li>
