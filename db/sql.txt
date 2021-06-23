@@ -1,39 +1,35 @@
-create database com_vida;
-
-use com_vida; 
-
 create table estado (
-	codest integer auto_increment primary key, 
+	codest serial primary key, 
 	desest varchar(20) not null,
 	unifedest char(2) not null
 );
 
 create table cidade (
-	codcid integer auto_increment primary key, 
+	codcid serial primary key, 
 	codest integer not null,
 	nomcid varchar(30) not null,
 	constraint cidade_codest_fk foreign key (codest) references estado (codest)
 );
 
 create table cep_endereco (
-	codcepend integer auto_increment primary key, 
+	codcepend serial primary key, 
 	codcid integer not null,
 	numcep integer not null,
 	constraint cep_codcid_fk foreign key (codcid) references cidade (codcid)
 );
 
 create table genero (
-	codgen integer auto_increment primary key,
+	codgen serial primary key,
 	desgen varchar(15) not null
 );
 
 create table usuario (
-	codusu integer auto_increment primary key, 
+	codusu serial primary key, 
 	codgen integer not null, 
 	codcepend integer not null,
 	nomusu varchar(50) not null,
 	datnasusu date not null, 
-	avausu blob not null, 
+	avausu bytea not null, 
 	logusu varchar(20) not null,
 	senusu varchar(20) not null,
 	constraint usuario_codgen_fk foreign key (codgen) references genero (codgen),
@@ -41,17 +37,17 @@ create table usuario (
 );
 
 create table sintoma (
-	codsin integer auto_increment primary key, 
+	codsin serial primary key, 
 	dessin varchar(30) not null
 );
 
 create table intensidade (
-	codint integer auto_increment primary key, 
+	codint serial primary key, 
 	desint varchar(10) not null
 );
 
 create table prontuario (
-	codpro integer auto_increment primary key, 
+	codpro serial primary key, 
 	codusu integer not null, 
 	datcadpro date not null,
 	retpro boolean,
@@ -60,7 +56,7 @@ create table prontuario (
 );
 
 create table prontuario_sintoma (
-	codsinpro integer auto_increment primary key, 
+	codsinpro serial primary key, 
 	codpro integer not null, 
 	codsin integer not null, 
 	codint integer not null, 
@@ -72,36 +68,41 @@ create table prontuario_sintoma (
 
 /***********************************************************/
 
-insert into estado (codest, desest, unifedest) values (1, 'RIO GRANDE DO SUL', 'RS');
-insert into estado (codest, desest, unifedest) values (2, 'SANTA CATARINA', 'SC');
-insert into estado (codest, desest, unifedest) values (3, 'PARANÁ', 'PR');
+ 
+ 
+ 
+ 
 
-insert into estado (codest, desest, unifedest) values (4, 'SÃO PAULO', 'SP');
-insert into estado (codest, desest, unifedest) values (5, 'RIO DE JANEIRO', 'RJ');
-insert into estado (codest, desest, unifedest) values (6, 'ESPÍRITO SANTO', 'ES');
-insert into estado (codest, desest, unifedest) values (7, 'MINAS GERAIS', 'MG');
+insert into estado (codest, desest, unifedest) values (1, 'Rio Grande do Sul', 'RS');
+insert into estado (codest, desest, unifedest) values (2, 'Santa Catarina', 'SC');
+insert into estado (codest, desest, unifedest) values (3, 'Paraná', 'PR');
 
-insert into estado (codest, desest, unifedest) values (8, 'GOIÁS', 'GO');
-insert into estado (codest, desest, unifedest) values (9, 'MATO GROSSO', 'MT');
-insert into estado (codest, desest, unifedest) values (10, 'MATO GROSSO DO SUL', 'MS');
+insert into estado (codest, desest, unifedest) values (4, 'São Paulo', 'SP');
+insert into estado (codest, desest, unifedest) values (5, 'Rio de Janeiro', 'RJ');
+insert into estado (codest, desest, unifedest) values (6, 'Espírito Santo', 'ES');
+insert into estado (codest, desest, unifedest) values (7, 'Minas Gerais', 'MG');
 
-insert into estado (codest, desest, unifedest) values (11, 'ALAGOAS', 'AL');
-insert into estado (codest, desest, unifedest) values (12, 'BAHIA', 'BA');
-insert into estado (codest, desest, unifedest) values (13, 'CEARÁ', 'CE');
-insert into estado (codest, desest, unifedest) values (14, 'MARANHÃO', 'MA');
-insert into estado (codest, desest, unifedest) values (15, 'PARAÍBA', 'PB');
-insert into estado (codest, desest, unifedest) values (16, 'PERNAMBUCO', 'PE');
-insert into estado (codest, desest, unifedest) values (17, 'PIAUÍ', 'PI');
-insert into estado (codest, desest, unifedest) values (18, 'RIO GRANDE DO NORTE', 'RN');
-insert into estado (codest, desest, unifedest) values (19, 'SERGIPE', 'SE');
+insert into estado (codest, desest, unifedest) values (8, 'Goiás', 'GO');
+insert into estado (codest, desest, unifedest) values (9, 'Mato Grosso', 'MT');
+insert into estado (codest, desest, unifedest) values (10, 'Mato Grosso do Sul', 'MS');
 
-insert into estado (codest, desest, unifedest) values (20, 'ACRE', 'AC');
-insert into estado (codest, desest, unifedest) values (21, 'AMAPÁ', 'AP');
-insert into estado (codest, desest, unifedest) values (22, 'AMAZONAS', 'AM');
-insert into estado (codest, desest, unifedest) values (23, 'PARÁ', 'PA');
-insert into estado (codest, desest, unifedest) values (24, 'RONDÔNIA', 'RO');
-insert into estado (codest, desest, unifedest) values (25, 'RORAIMA', 'RR');
-insert into estado (codest, desest, unifedest) values (26, 'TOCANTINS', 'TO');
+insert into estado (codest, desest, unifedest) values (11, 'Alagoas', 'AL');
+insert into estado (codest, desest, unifedest) values (12, 'Bahia', 'BA');
+insert into estado (codest, desest, unifedest) values (13, 'Ceará', 'CE');
+insert into estado (codest, desest, unifedest) values (14, 'Maranhão', 'MA');
+insert into estado (codest, desest, unifedest) values (15, 'Paraíba', 'PB');
+insert into estado (codest, desest, unifedest) values (16, 'Pernambuco', 'PE');
+insert into estado (codest, desest, unifedest) values (17, 'Piauí', 'PI');
+insert into estado (codest, desest, unifedest) values (18, 'Rio Grande do Norte', 'RN');
+insert into estado (codest, desest, unifedest) values (19, 'Sergipe', 'SE');
+
+insert into estado (codest, desest, unifedest) values (20, 'Acre', 'AC');
+insert into estado (codest, desest, unifedest) values (21, 'Amapá', 'AP');
+insert into estado (codest, desest, unifedest) values (22, 'Amazonas', 'AM');
+insert into estado (codest, desest, unifedest) values (23, 'Pará', 'PA');
+insert into estado (codest, desest, unifedest) values (24, 'Rondônia', 'RO');
+insert into estado (codest, desest, unifedest) values (25, 'Roraima', 'RR');
+insert into estado (codest, desest, unifedest) values (26, 'Tocantins', 'TO');
 
 
 insert into genero (codgen, desgen) values (1, 'MASCULINO');
@@ -127,72 +128,58 @@ insert into intensidade (codint, desint) values (3, 'Elevada');
 
 /*************************************************************************/
 
-create user 'desenvolvimento'@'localhost' identified by '$k£Y!M@sT3R';
-grant select, insert, update, delete on com_vida . * to 'desenvolvimento'@'localhost';
+create user desenvolvimento with password '$k£Y!M@sT3R';
+grant select, insert, update on all tables in schema public to desenvolvimento;
+grant select, update, usage on all sequences in schema public to desenvolvimento;
+grant execute on function public.salvar_cidade_cep_endereco(bpchar, varchar, int4) to desenvolvimento;
+grant execute on function public.buscar_cidade_estado(int4) to desenvolvimento;
 
 
 /*************************************************************************/
 
 
-CREATE OR REPLACE PROCEDURE salvar_cidade_cep_endereco (
-    uf CHAR(2),
-	cidade VARCHAR(30), 
-	cep INT
-)
-BEGIN
+CREATE OR REPLACE function buscar_cidade_estado (cep int4)
+RETURNS table (nomcid varchar, desest varchar) 
+AS
+$body$
+begin
 	
-    START TRANSACTION;
-    
-	DECLARE codEst INT;
-    DECLARE codCid INT;
-    
-    SELECT codest INTO codEst FROM estado WHERE unifedest = uf;
-    
-    SELECT codcid INTO codCid FROM cidade WHERE nomcid = cidade;
-    
-    IF codCid = NULL THEN
-    	INSERT INTO cidade (codest, nomcid) VALUES (codEst, cidade);
-    END IF;
-    
-    SELECT MAX(codcid) INTO codCid FROM cidade;
-    
-    INSERT INTO cep_endereco (codcid, numcep) VALUES (codCid, cep);
-   		
-	COMMIT;
+	RETURN QUERY SELECT ci.nomcid, es.desest FROM cep_endereco AS ce 
+        INNER JOIN cidade AS ci ON ce.codcid = ci.codcid 
+        INNER JOIN estado AS es ON es.codest = ci.codest 
+    	WHERE ce.numcep = cep;
+       	group by ci
 END;
+$body$ LANGUAGE 'plpgsql';
 
-
-
-		/*CREATE FUNCTION salvar_usuario_completo (
-	codusu INT, 
-    nomusu VARCHAR(50),
-	datnasusu DATE, 
-	avausu BLOB, 
-	logusu VARCHAR(20),
-	senusu VARCHAR(20),
-	codgen INT,
-	codcepend INT
-)
-RETURNS BOOLEAN
-
-BEGIN
-
-   	IF codusu = NULL THEN
-   		
-   	ELSE
-      IF n > m THEN SET s = 'greater';
-      ELSE SET s = 'less';
-      END IF;
-
-      SET s = CONCAT('is ', s, ' than');
-    END IF;
-
-    SET s = CONCAT(n, ' ', s, ' ', m, '.');
-
-    RETURN s;
-
-   RETURN income;
-
-END;*/
+CREATE OR REPLACE function salvar_cidade_cep_endereco (uf CHAR(2), nomeCidade VARCHAR(30), cep int4)
+RETURNS table(nomcid varchar, desest varchar)  
+AS
+$body$
+DECLARE 
+codigoEstado int4;
+codigoCidade int4;
+existeCepCadastrado boolean default false;
+begin
+	
+   	SELECT true into existeCepCadastrado FROM cep_endereco WHERE numcep = cep limit 1;
+   
+  	if not found then 
+	
+	    SELECT e.codest INTO codigoEstado FROM estado as e WHERE e.unifedest = uf;
+	    
+	    SELECT c.codcid INTO codigoCidade FROM cidade as c WHERE c.nomcid = nomeCidade;
+	    
+	    IF NOT FOUND then
+	    	INSERT INTO cidade (codest, nomcid) VALUES (codigoEstado, nomeCidade);
+	    	SELECT MAX(c.codcid) INTO codigoCidade FROM cidade as c; 	
+	    END IF;
+	   
+	   
+	    INSERT INTO cep_endereco (codcid, numcep) VALUES (codigoCidade, cep);
+		return query select * from buscar_cidade_estado(cep);
+	end if;
+END;
+$body$ LANGUAGE 'plpgsql';
 
 

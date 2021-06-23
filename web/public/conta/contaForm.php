@@ -60,11 +60,11 @@
 
       <div class="col-5">
         <label for="cidade" class="form-label">Cidade:</label>
-        <input type="text" class="form-control" id="cidade" placeholder="Cidade onde mora..." readonly>
+        <input type="text" class="form-control input-cidade" id="cidade" placeholder="Cidade onde mora..." readonly>
       </div>
       <div class="col-5">
         <label for="estado" class="form-label">Estado:</label>
-        <input type="text" class="form-control" id="estado" placeholder="Estado onde mora..." readonly>
+        <input type="text" class="form-control input-estado" id="estado" placeholder="Estado onde mora..." readonly>
       </div>
 
       <div class="col-12 mt-5" style="direction: rtl;">
@@ -88,7 +88,9 @@
           method: "get",
           url: "./public/conta/getDadosCep.php?cep=" + cep,
           success: function(data){
-            debugger
+            json = JSON.parse(data);
+            $(".input-cidade").val(json.nomcid);
+            $(".input-estado").val(json.desest);
           }
         });
       }
