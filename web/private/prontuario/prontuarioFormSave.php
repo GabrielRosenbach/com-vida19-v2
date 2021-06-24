@@ -54,7 +54,6 @@ for ($i = 0; $i < count($array); $i++) {
 	$sql = $sql . '(' .$prontuario->salvar_prontuario. ', ' .$array[$i][0]. ', ' .$array[$i][1]. ')';
 }
 
-
 $query = $PDO->prepare($sql);
 
 if ($query->execute()) {

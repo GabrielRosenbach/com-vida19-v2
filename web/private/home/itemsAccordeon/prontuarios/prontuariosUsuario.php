@@ -20,12 +20,18 @@
             <th>Data de Cadastro</th>
             <th>Resposta do Sistema</th>
         </tr>
-        <?php while ($prontuario = $select->fetch(PDO::FETCH_ASSOC)) {
-            $date = DateTime::createFromFormat('Y-m-d', $prontuario['datcadpro']); 
+        <?php 
+            if ($select->fetchObject()) {
+                while ($prontuario = $select->fetch(PDO::FETCH_ASSOC)) {
+                $date = DateTime::createFromFormat('Y-m-d', $prontuario['datcadpro']); 
         ?>
             <tr>
                 <td><?= $date->format('d/m/Y')?></td>
                 <td><?= $prontuario['desstapro']?></td>
+            </tr>
+        <?php }} else { ?>
+            <tr>
+                <td colspan="2" style="text-align: center;">Sem Dados</td>
             </tr>
         <?php } ?>
     </table>

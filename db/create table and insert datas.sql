@@ -111,8 +111,8 @@ insert into estado (codest, desest, unifedest) values (25, 'Roraima', 'RR');
 insert into estado (codest, desest, unifedest) values (26, 'Tocantins', 'TO');
 
 
-insert into genero (codgen, desgen) values (1, 'MASCULINO');
-insert into genero (codgen, desgen) values (2, 'FEMININO');
+insert into genero (codgen, desgen) values (1, 'Masculino');
+insert into genero (codgen, desgen) values (2, 'Feminino');
 
 insert into sintoma (codsin, dessin) values (1, 'Febre');
 insert into sintoma (codsin, dessin) values (2, 'Tosse Seca');

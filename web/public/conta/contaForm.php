@@ -7,9 +7,9 @@
 
   if (isset($ticketAcesso)) {
     $countSql = 'SELECT u.codusu, u.codgen, u.nomusu, u.datnasusu, u.logusu, ce.numcep, ci.nomcid, es.desest FROM usuario as u 
-          inner join cep_endereco as ce on ce.codcepend = u.codcepend 
-          inner join cidade as ci on ci.codcid = ce.codcid
-          inner join estado as es on es.codest = ci.codest
+          left join cep_endereco as ce on ce.codcepend = u.codcepend 
+          left join cidade as ci on ci.codcid = ce.codcid
+          left join estado as es on es.codest = ci.codest
           WHERE u.aceusu = :acesso';
     $qryCount = $PDO->prepare($countSql);
     $qryCount->bindParam(':acesso', $ticketAcesso, PDO::PARAM_STR);
@@ -30,11 +30,11 @@
       <h5 class="mt-4">Dados Pessoais</h5>
       <div class="col-3">
         <label for="nome" class="form-label">Nome:</label>
-        <input type="text" class="form-control" id="nome" name="nome" value="<?= isset($cliente) ? $cliente->nomusu : '' ?>" placeholder="Nome completo do usuário...">
+        <input type="text" class="form-control" id="nome" name="nome" value="<?= isset($cliente) || isset($cliente->nomusu) ? $cliente->nomusu : '' ?>" placeholder="Nome completo do usuário...">
       </div>
       <div class="col-2">
         <label for="dataNascimento" class="form-label">Data de Nascimento:</label>
-        <input type="date" class="form-control" name="dataNascimento" value="<?= isset($cliente) ? $cliente->datnasusu : '' ?>" id="dataNascimento">
+        <input type="date" class="form-control" name="dataNascimento" value="<?= isset($cliente) || isset($cliente->datnasusu) ? $cliente->datnasusu : '' ?>" id="dataNascimento">
       </div>
       <div class="col-2">
         <label>Gênero:</label>
@@ -68,16 +68,16 @@
       
       <div class="col-2">
         <label for="cep" class="form-label">CEP</label>
-        <input type="text" class="form-control input-cep" name="cep" value="<?= isset($cliente) ? $cliente->numcep : '' ?>" id="cep" placeholder="CEP da cidade...">
+        <input type="text" class="form-control input-cep" name="cep" value="<?= isset($cliente) || isset($cliente->numcep)  ? $cliente->numcep : '' ?>" id="cep" placeholder="CEP da cidade...">
       </div>
 
       <div class="col-5">
         <label for="cidade" class="form-label">Cidade:</label>
-        <input type="text" class="form-control input-cidade" id="cidade" value="<?= isset($cliente) ? $cliente->nomcid : '' ?>" placeholder="Cidade onde mora..." readonly>
+        <input type="text" class="form-control input-cidade" id="cidade" value="<?= isset($cliente) || isset($cliente->nomcid)  ? $cliente->nomcid : '' ?>" placeholder="Cidade onde mora..." readonly>
       </div>
       <div class="col-5">
         <label for="estado" class="form-label">Estado:</label>
-        <input type="text" class="form-control input-estado" id="estado" value="<?= isset($cliente) ? $cliente->desest : '' ?>" placeholder="Estado onde mora..." readonly>
+        <input type="text" class="form-control input-estado" id="estado" value="<?= isset($cliente) || isset($cliente->desest)  ? $cliente->desest : '' ?>" placeholder="Estado onde mora..." readonly>
       </div>
 
       <div class="col-12 mt-5" style="direction: rtl;">

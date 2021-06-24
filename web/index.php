@@ -4,8 +4,6 @@
   require 'utils/cookieHelper.php';
 
   $ticketAcesso = getCookie($cookieTicketAcesso);
-
-  
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,14 +28,14 @@
 <?php
   require 'navbar.php';
 ?>
-<main class="container">
+<main class="container mb-5" style="min-height: 500px;">
 <?php
   require 'public/home/home.php';
 ?>
 </main>
 <hr>
-<footer class="container">
-  Programação web @ 2020
+<footer class="container" style="min-height: 40px;">
+  Programação web @ 2021
 </footer>
 
 <div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
