@@ -5,8 +5,6 @@
   $qrySintomas = $PDO->prepare($sqlSintomas);
   $qrySintomas->execute();
 
-  include '../../utils/cookies/usuario/getUsuario.php';
-
   $countSql = "SELECT * FROM usuario WHERE id = " . $codigoUsuario;
   $qryCount = $PDO->prepare($countSql);
   $qryCount->execute();
@@ -15,7 +13,7 @@
 ?>
 <div id="conta">
     <div>
-        <?= ($usuarioLogado) ? '<h2>Dados do Prontuário</h2>' : '<h2>Novo Prontuário</h2>' ?>
+        <?= false ? '<h2>Dados do Prontuário</h2>' : '<h2>Novo Prontuário</h2>' ?>
 
         <form class="row g-3 mt-4" action="addCliente.php" enctype="multipart/form-data" method="post" style="text-align: center !important;">
 
