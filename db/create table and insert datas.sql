@@ -77,7 +77,7 @@ create table prontuario_sintoma (
 
 /***********************************************************/
 
-insert into usuario (nomusu, logusu, senusu, admusu) values ('Administrador', 'admin.piloto', '123456', true);
+insert into usuario (nomusu, logusu, senusu, admusu, aceusu) values ('Administrador', 'admin.piloto', 'e10adc3949ba59abbe56e057f20f883e', true, '911200c9c3e716cb1baee84a66503918');
 
 insert into estado (codest, desest, unifedest) values (1, 'Rio Grande do Sul', 'RS');
 insert into estado (codest, desest, unifedest) values (2, 'Santa Catarina', 'SC');

@@ -1,6 +1,6 @@
 <?php
   if (isset($PDO)) {
-    require __DIR__ . '\..\..\..\conecta.php';
+    require __DIR__ . '\..\..\conecta.php';
   }
 ?>
 <div class="accordion" id="accordionExample">
@@ -10,6 +10,7 @@
       $select->bindParam('ticket', $ticketAcesso);
       $select->execute();
       $result = $select->fetchObject();
+      if (!$result->admusu) {
   ?>
     <div class="accordion-item">
       <h2 class="accordion-header" id="headingOne">
@@ -23,7 +24,7 @@
         </div>
       </div>
     </div>
-  <?php } ?>
+  <?php }} ?>
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingTwo">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
