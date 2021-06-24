@@ -12,6 +12,10 @@
     $select = $PDO->prepare('select * from buscar_prontuarios_usuario(:ticket)');
     $select->bindParam(':ticket', $ticketAcesso);
     $select->execute();
+
+    $count = $PDO->prepare('select count(1) as total from buscar_prontuarios_usuario(:ticket)');
+    $count->bindParam(':ticket', $ticketAcesso);
+    $count->execute();
 ?>
 <div class="d-flex" style="flex-direction: column; align-items: center;"> 
     <h5 class="mb-3">Prontuários Cadastrados</h5>
@@ -21,8 +25,11 @@
             <th>Resposta do Sistema</th>
         </tr>
         <?php 
-            if ($select->fetchObject()) {
+            
+            if ($count->fetchObject()->total > 0) {
+                
                 while ($prontuario = $select->fetch(PDO::FETCH_ASSOC)) {
+                    
                 $date = DateTime::createFromFormat('Y-m-d', $prontuario['datcadpro']); 
         ?>
             <tr>
