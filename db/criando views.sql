@@ -1,0 +1,2 @@
+create or replace view codigos_sintomas_vw as select s.codsin from public.sintoma s;
+create or replace view estados_uf_minusculo_vw as select e.desest, lower(e.unifedest) as unifedest from public.estado e;

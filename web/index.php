@@ -1,3 +1,12 @@
+<?php 
+  require 'conecta.php';
+
+  require 'utils/cookieHelper.php';
+
+  $ticketAcesso = getCookie($cookieTicketAcesso);
+
+  
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +31,9 @@
   require 'navbar.php';
 ?>
 <main class="container">
+<?php
+  require 'public/home/home.php';
+?>
 </main>
 <hr>
 <footer class="container">
