@@ -110,25 +110,25 @@
                                 <span class="tooltip">Meu perfil</span>
                             </li>
                             <li>
+                                <a href="formulario.php">
+                                <i class='bx bx-edit' ></i>
+                                    <span class="links_nome">cadastro de endereço</span>
+                                </a>
+                                <span class="tooltip">Cadastro de informações endereço</span>
+                            </li>
+                            <li>
+                                <a href="#">
+                                <i class='bx bx-message-edit'></i>
+                                    <span class="links_nome">Cadastro sintomas</span>
+                                </a>
+                                <span class="tooltip">Acessar cadastro sintomas</span>
+                            </li>
+                            <li>
                                 <a href="#">
                                     <i class='bx bx-message-alt-detail' ></i>
-                                    <span class="links_nome">Acessar meu perfil</span>
+                                    <span class="links_nome">Perguntas Médico</span>
                                 </a>
-                                <span class="tooltip">Acessar meu perfil</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class='bx bxs-user' ></i>
-                                    <span class="links_nome">Acessar meu perfil</span>
-                                </a>
-                                <span class="tooltip">Acessar meu perfil</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class='bx bxs-user' ></i>
-                                    <span class="links_nome">Acessar meu perfil</span>
-                                </a>
-                                <span class="tooltip">Acessar meu perfil</span>
+                                <span class="tooltip">Acessar minhas perguntas</span>
                             </li>
                         </ul>
                     </div>
@@ -518,31 +518,79 @@
                                                 <div class="nome_estado">
                                                     Santa Catarina
                                                 </div>
+                                                <?php
+                                        include ("../Cadastro_Login/conecta.php");  
+                                             $sql_con_sc = mysqli_query($conexao,"call casos_estado('Santa Catarina','Confirmado')");
+                                             $sql_con_row = mysqli_fetch_assoc($sql_con_sc);
+                                                 $sql_confirmado_sc = $sql_con_row['total'];
+                                                 mysqli_free_result($sql_con_sc);
+                                                 mysqli_close($conexao);
+
+                                                 include ("../Cadastro_Login/conecta.php");  
+                                                 $sql_rec_sc = mysqli_query($conexao,"call casos_estado('Santa Catarina','Recuperado')");
+                                                 $sql_con_row = mysqli_fetch_assoc($sql_rec_sc);
+                                                     $sql_recuperado_sc = $sql_con_row['total'];
+                                                     mysqli_free_result($sql_rec_sc);
+                                                     mysqli_close($conexao);   
+                                                     include ("../Cadastro_Login/conecta.php");                                        
+                                        ?>
                                                 <div class="casos_estado">
-                                                    <div class="column1 column">32145</div>
-                                                    <div class="column2 column">32145</div>
-                                                    <div class="column3 column">32145</div>
+                                                    <div class="column1 column"><?= $sql_confirmado_sc?></div>
+                                                    <div class="column2 column"><?= $sql_confirmado_sc - $sql_recuperado_sc ?></div>
+                                                    <div class="column3 column"><?= $sql_recuperado_sc?></div>
                                                 </div>
                                             </div>
 
                                             <div class="estado">
                                                 <div class="nome_estado">
-                                                    Paraná
+                                                Rio Grande do Sul
                                                 </div>
+                                                <?php
+                                        include ("../Cadastro_Login/conecta.php");  
+                                             $sql_con_rs = mysqli_query($conexao,"call casos_estado('Rio Grande do Sul','Confirmado')");
+                                             $sql_con_row = mysqli_fetch_assoc($sql_con_rs);
+                                                 $sql_confirmado_rs = $sql_con_row['total'];
+                                                 mysqli_free_result($sql_con_rs);
+                                                 mysqli_close($conexao);
+
+                                                 include ("../Cadastro_Login/conecta.php");  
+                                                 $sql_con_rs = mysqli_query($conexao,"call casos_estado('Rio Grande do Sul','Recuperado')");
+                                                 $sql_con_row = mysqli_fetch_assoc($sql_con_rs);
+                                                     $sql_recuperado_rs = $sql_con_row['total'];
+                                                     mysqli_free_result($sql_con_rs);
+                                                     mysqli_close($conexao);   
+                                                     include ("../Cadastro_Login/conecta.php");                                        
+                                        ?>
                                                 <div class="casos_estado">
-                                                    <div class="column1 column">32145</div>
-                                                    <div class="column2 column">32145</div>
-                                                    <div class="column3 column">32145</div>
+                                                    <div class="column1 column"><?= $sql_confirmado_rs?></div>
+                                                    <div class="column2 column"><?= $sql_confirmado_rs - $sql_recuperado_rs ?></div>
+                                                    <div class="column3 column"><?= $sql_recuperado_rs?></div>
                                                 </div>
                                             </div>
                                             <div class="estado">
                                                 <div class="nome_estado">
-                                                    Rio Grande so Sul
+                                                      Paraná
                                                 </div>
+                                                <?php
+                                        include ("../Cadastro_Login/conecta.php");  
+                                             $sql_con = mysqli_query($conexao,"call casos_estado('Paraná','Confirmado')");
+                                             $sql_con_row = mysqli_fetch_assoc($sql_con);
+                                                 $sql_confirmado_pr = $sql_con_row['total'];
+                                                 mysqli_free_result($sql_con);
+                                                 mysqli_close($conexao);
+
+                                                 include ("../Cadastro_Login/conecta.php");  
+                                                 $sql_con = mysqli_query($conexao,"call casos_estado('Paraná','Recuperado')");
+                                                 $sql_con_row = mysqli_fetch_assoc($sql_con);
+                                                     $sql_recuperado_pr = $sql_con_row['total'];
+                                                     mysqli_free_result($sql_con);
+                                                     mysqli_close($conexao);   
+                                                     include ("../Cadastro_Login/conecta.php");                                        
+                                        ?>
                                                 <div class="casos_estado">
-                                                    <div class="column1 column">32145</div>
-                                                    <div class="column2 column">32145</div>
-                                                    <div class="column3 column">32145</div>
+                                                    <div class="column1 column"><?= $sql_confirmado_pr?></div>
+                                                    <div class="column2 column"><?= $sql_confirmado_pr - $sql_recuperado_pr ?></div>
+                                                    <div class="column3 column"><?= $sql_recuperado_pr?></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -574,9 +622,7 @@
                     </div>
                 </section>
             </section><!--Fim da secao principal-->
-           <aside id="container_lateral">
-               asdasdsd
-           </aside>
+           
           <div class="faq" style="position:fixed;bottom:5px;right:30px">
               <img src="images/faq.png" alt="faq" class="faq_img" width="80px">
           </div>
