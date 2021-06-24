@@ -35,7 +35,7 @@
 </main>
 <hr>
 <footer class="container" style="min-height: 40px;">
-  Programação web @ 2021
+  ComVida-19 @ 2021
 </footer>
 
 <div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
