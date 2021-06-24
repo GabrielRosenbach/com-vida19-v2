@@ -73,7 +73,7 @@
                     </div>
                     <div class="container_geral_info">
                         <div class="informacao_perfil container">
-                            <div class="perfil_nome"><div class="info_perfil">Nome: <?=$nome ?></div></div>
+                            <div class="perfil_nome"><div class="info_perfil">Nome: '.$nome .'</div></div>
                             
                             <div class="informacoes">
                                 <div class="container_info_perfil">
@@ -106,7 +106,7 @@
             '; 
         }else{
             echo 'Voce ainda não cadastrou seus dados de perfil e endereço!!
-            <a href="../Home/formulario.html"><button>Ir para página de cadastro!</button></a>
+            <a href="../Home/formulario.php"><button>Ir para página de cadastro!</button></a>
             ';
         }
         ?>

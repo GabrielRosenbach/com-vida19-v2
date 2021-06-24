@@ -152,29 +152,46 @@
                 <article id="painel"><!--CONTERÁ ESTATISTICAS CASOS NOVOS RECUPERADOS GERAL  E POR REGIOES--> 
                 <section id="estatistica"><!--ESTATISTICAS CASOS RECUPERADOS CONFIRMADOS  GERAL-->
                         <div class="cards">
-                            <?php
-                              $sql_sus =  mysqli_num_rows(mysqli_query($conexao,"select * from paciente p inner join status s on p.cod_status = s.cod_status where s.des_status = 'Suspeito'"));   
+                        <?php
+                                $sql_sus = mysqli_query($conexao,"call casos_geral('Suspeito')");
+                                $sql_con_row = mysqli_fetch_assoc($sql_sus);
+                                    $sql_suspeito = $sql_con_row['total'];
+                                     mysqli_free_result($sql_sus);
+                                     mysqli_close($conexao);
                             ?>
                             <h2>Casos suspeitos</h2>
-                            <div><?=  ($sql_sus); ?></div>
+                            
+                            <div style="align-self:center"><?= ($sql_suspeito); ?></div>
                         </div>
                         <div class="cards">
                             <?php
-                              $sql_con = mysqli_num_rows(mysqli_query($conexao,"select * from paciente p inner join status s on p.cod_status = s.cod_status where s.des_status = 'Confirmado'"));
+                             include ("../Cadastro_Login/conecta.php"); 
+                                $sql_con = mysqli_query($conexao,"call casos_geral('Confirmado')");
+                                $sql_con_row = mysqli_fetch_assoc($sql_con);
+                                    $sql_confirmado = $sql_con_row['total'];
+                                     mysqli_free_result($sql_con);
+                                     mysqli_close($conexao);
                             ?>
+                            
                             <h2>Casos confirmados</h2>
-                            <div><?= ($sql_con); ?></div>
+                            <div  style="align-self:center"><?= ($sql_confirmado); ?></div>
                         </div>  
                         <div class="cards">
-                            <?php
-                              $sql_rec =  mysqli_num_rows(mysqli_query($conexao,"select * from paciente p inner join status s on p.cod_status = s.cod_status where s.des_status = 'Recuperado'"));   
-                            ?>
+                            
                             <h2>Casos recuperados</h2>
-                            <div><?= ($sql_rec);?></div>
+                            <?php
+                                    include ("../Cadastro_Login/conecta.php");      
+                                    $sql_rec =  mysqli_query($conexao,"call casos_geral('Recuperado')"); 
+                                     $row = mysqli_fetch_assoc($sql_rec);                            
+                                         $sql_recuperado = $row['total']; 
+                                         mysqli_free_result($sql_rec);
+                                         mysqli_close($conexao);
+                            ?>
+                            <div style="align-self:center"><?= ($sql_recuperado); ?></div>
                         </div>
                         <div class="cards">
                             <h2>Casos Ativos</h2>
-                            <div><?= (($sql_con)-($sql_rec));?></div>
+                            <div  style="align-self:center"><?= (($sql_confirmado)-($sql_recuperado));?></div>
                         </div>
                     </section>
             
@@ -197,10 +214,11 @@
                                         <div class="nome_regiao">
                                             Brasil
                                         </div>
+
                                         <div class="casos_regiao">
-                                            <div class="column1 column">32145</div>
-                                            <div class="column2 column">32145</div>
-                                            <div class="column3 column">32145</div>
+                                            <div class="column1 column"><?= $sql_confirmado?></div>
+                                            <div class="column2 column"><?= $sql_confirmado - $sql_recuperado?></div>
+                                            <div class="column3 column"><?= $sql_recuperado?></div>
                                         </div>
                                     </div>
                                     <!--Norte-->
@@ -213,10 +231,24 @@
                                                 Norte
                                             </div>
                                         </div>
+                                        <?php
+                                        include ("../Cadastro_Login/conecta.php");  
+                                             $sql_con_norte = mysqli_query($conexao,"call casos_regiao('Confirmado','Norte')");
+                                             $sql_con_row = mysqli_fetch_assoc($sql_con_norte);
+                                                 $sql_confirmado_norte = $sql_con_row['total'];
+                                                 mysqli_free_result($sql_con_norte);
+                                                 mysqli_close($conexao);
+                                                 include ("../Cadastro_Login/conecta.php");  
+                                                 $sql_rec_norte = mysqli_query($conexao,"call casos_regiao('Recuperado','Norte')");
+                                                 $sql_con_row = mysqli_fetch_assoc($sql_rec_norte);
+                                                     $sql_recuperado_norte = $sql_con_row['total'];
+                                                     mysqli_free_result($sql_rec_norte);
+                                                     mysqli_close($conexao);                                         
+                                        ?>
                                         <div class="casos_regiao">
-                                            <div class="column1 column">32145</div>
-                                            <div class="column2 column">32145</div>
-                                            <div class="column3 column">32145</div>
+                                            <div class="column1 column"><?= $sql_confirmado_norte?></div>
+                                            <div class="column2 column"><?= $sql_confirmado_norte - $sql_recuperado_norte ?></div>
+                                            <div class="column3 column"><?= $sql_recuperado_norte?></div>
                                         </div>
 
                                         <div class="estado_norte estados">
@@ -264,10 +296,24 @@
                                                 Nordeste
                                             </div>
                                         </div>
+                                        <?php
+                                        include ("../Cadastro_Login/conecta.php");  
+                                             $sql_con_nordeste = mysqli_query($conexao,"call casos_regiao('Confirmado','Nordeste')");
+                                             $sql_con_row = mysqli_fetch_assoc($sql_con_nordeste);
+                                                 $sql_confirmado = $sql_con_row['total'];
+                                                 mysqli_free_result($sql_con_nordeste);
+                                                 mysqli_close($conexao);
+                                                 include ("../Cadastro_Login/conecta.php");  
+                                                 $sql_rec = mysqli_query($conexao,"call casos_regiao('Recuperado','Nordeste')");
+                                                 $sql_con_row = mysqli_fetch_assoc($sql_rec);
+                                                     $sql_recuperado = $sql_con_row['total'];
+                                                     mysqli_free_result($sql_rec);
+                                                     mysqli_close($conexao);                                         
+                                        ?>
                                         <div class="casos_regiao">
-                                            <div class="column1 column">32145</div>
-                                            <div class="column2 column">32145</div>
-                                            <div class="column3 column">32145</div>
+                                            <div class="column1 column"><?= $sql_confirmado?></div>
+                                            <div class="column2 column"><?= $sql_confirmado - $sql_recuperado ?></div>
+                                            <div class="column3 column"><?= $sql_recuperado?></div>
                                         </div>
 
                                         <div class="estado_nordeste estados">
@@ -315,10 +361,24 @@
                                                 Centro-Oeste
                                             </div>
                                         </div>
+                                        <?php
+                                        include ("../Cadastro_Login/conecta.php");  
+                                             $sql_con = mysqli_query($conexao,"call casos_regiao('Confirmado','Centro-Oeste')");
+                                             $sql_con_row = mysqli_fetch_assoc($sql_con);
+                                                 $sql_confirmado = $sql_con_row['total'];
+                                                 mysqli_free_result($sql_con);
+                                                 mysqli_close($conexao);
+                                                 include ("../Cadastro_Login/conecta.php");  
+                                                 $sql_con = mysqli_query($conexao,"call casos_regiao('Recuperado','Centro-Oeste')");
+                                                 $sql_con_row = mysqli_fetch_assoc($sql_con);
+                                                     $sql_recuperado = $sql_con_row['total'];
+                                                     mysqli_free_result($sql_con);
+                                                     mysqli_close($conexao);                                         
+                                        ?>
                                         <div class="casos_regiao">
-                                            <div class="column1 column">32145</div>
-                                            <div class="column2 column">32145</div>
-                                            <div class="column3 column">32145</div>
+                                            <div class="column1 column"><?= $sql_confirmado?></div>
+                                            <div class="column2 column"><?= $sql_confirmado - $sql_recuperado ?></div>
+                                            <div class="column3 column"><?= $sql_recuperado?></div>
                                         </div>
 
                                         <div class="estado_centro estados">
@@ -366,10 +426,24 @@
                                                 Sudeste
                                             </div>
                                         </div>
+                                        <?php
+                                        include ("../Cadastro_Login/conecta.php");  
+                                             $sql_con = mysqli_query($conexao,"call casos_regiao('Confirmado','Sudeste')");
+                                             $sql_con_row = mysqli_fetch_assoc($sql_con);
+                                                 $sql_confirmado_sudeste = $sql_con_row['total'];
+                                                 mysqli_free_result($sql_con);
+                                                 mysqli_close($conexao);
+                                                 include ("../Cadastro_Login/conecta.php");  
+                                                 $sql_con = mysqli_query($conexao,"call casos_regiao('Recuperado','Sudeste')");
+                                                 $sql_con_row = mysqli_fetch_assoc($sql_con);
+                                                     $sql_recuperado_sudeste = $sql_con_row['total'];
+                                                     mysqli_free_result($sql_con);
+                                                     mysqli_close($conexao);                                         
+                                        ?>
                                         <div class="casos_regiao">
-                                            <div class="column1 column">32145</div>
-                                            <div class="column2 column">32145</div>
-                                            <div class="column3 column">32145</div>
+                                            <div class="column1 column"><?= $sql_confirmado_sudeste?></div>
+                                            <div class="column2 column"><?= $sql_confirmado_sudeste - $sql_recuperado_sudeste ?></div>
+                                            <div class="column3 column"><?= $sql_recuperado_sudeste?></div>
                                         </div>
 
                                         <div class="estado_sudeste estados">
@@ -417,10 +491,26 @@
                                                 Sul
                                             </div>
                                         </div>
+                                        <?php
+                                        include ("../Cadastro_Login/conecta.php");  
+                                             $sql_con_sul = mysqli_query($conexao,"call casos_regiao('Confirmado','Sul')");
+                                             $sql_con_row = mysqli_fetch_assoc($sql_con_sul);
+                                                 $sql_confirmado_sul = $sql_con_row['total'];
+                                                 mysqli_free_result($sql_con_sul);
+                                                 mysqli_close($conexao);
+
+                                                 include ("../Cadastro_Login/conecta.php");  
+                                                 $sql_rec_sul = mysqli_query($conexao,"call casos_regiao('Recuperado','Sul')");
+                                                 $sql_con_row = mysqli_fetch_assoc($sql_rec_sul);
+                                                     $sql_recuperado_sul = $sql_con_row['total'];
+                                                     mysqli_free_result($sql_rec_sul);
+                                                     mysqli_close($conexao);   
+                                                     include ("../Cadastro_Login/conecta.php");                                        
+                                        ?>
                                         <div class="casos_regiao">
-                                            <div class="column1 column">32145</div>
-                                            <div class="column2 column">32145</div>
-                                            <div class="column3 column">32145</div>
+                                            <div class="column1 column"><?= $sql_confirmado_sul?></div>
+                                            <div class="column2 column"><?= $sql_confirmado_sul - $sql_recuperado_sul ?></div>
+                                            <div class="column3 column"><?= $sql_recuperado_sul?></div>
                                         </div>
 
                                         <div class="estado_sul estados">

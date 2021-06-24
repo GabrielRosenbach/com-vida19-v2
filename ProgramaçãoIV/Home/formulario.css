@@ -27,6 +27,7 @@ body{
     font-size: 25px;
     font-weight: 500;
     align-self: center;
+    margin-bottom: 25px;
 }
 form{
     display: flex;

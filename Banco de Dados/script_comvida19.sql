@@ -36,16 +36,7 @@ comment on column cod_est is 'CHAVE ESTRANGEIRA LIGANDO A CHAVE PRIM?RIA DA TABE
 */
 /*CRIAÇÃO DA TABELA ENDEREÇO*/
 
-create table endereco(
-  cod_end int auto_increment primary key,
-  rua_end varchar(50) not null,
-  cep_end int not null,
-  num_end varchar(5) not null, 
-  comp_end varchar(100) not null, 
-  bai_end varchar(50) not null, 
-  cod_cid int,
-  constraint endereco_cod_cid_fk foreign key(cod_cid) references cidade(cod_cid)
-);
+
 
 /*comment on table endereco is 'TABELA DO ENDEREÇO DO PACIENTE';
 comment on column cod_end is 'COLUNA DO CÓDIGO DO ENDEREÇO';
@@ -85,13 +76,21 @@ create table paciente(
   data_nasc_pac date not null, 
   gen_pac char(1) not null,
   cod_usu int not null,
-  cod_end int not null,
-  cod_status numeric(1,0) not null,
+  cod_status numeric(1,0),
   constraint paciente_cod_usu_fk foreign key(cod_usu) references usuario(cod_usu),
-  constraint paciente_cod_end_fk foreign key(cod_end) references endereco(cod_end),
   constraint paciente_cod_status_fk foreign key(cod_status) references status(cod_status)
 );
-
+create table endereco(
+  cod_end int auto_increment primary key,
+  rua_end varchar(50) not null,
+  num_end varchar(5) not null, 
+  comp_end varchar(100) not null, 
+  bai_end varchar(50) not null, 
+  cod_cid int not null,
+  cod_pac int not null,
+  constraint endereco_cod_cid_fk foreign key(cod_cid) references cidade(cod_cid),
+  constraint endereco_cod_pac_fk foreign key(cod_pac) references paciente(cod_pac)
+);
 /*CRIAÇÃO DA TABELA TELEFONE*/
 
 create table telefone(
@@ -5944,219 +5943,316 @@ values
 (147,'Caetano33826@email.com',47743,'Caetano338');
 
 
+insert into paciente(cod_pac,nome_pac,alt_pac,peso_pac,data_nasc_pac,gen_pac,cod_usu,cod_status)
+values
+(1,'Pedro Juliano',1.76,78.20,'2002-6-1','M',1,1),
+(2,'João Paulo',1.75,75.20,'1990-5-13','M',2,1),
+(3,'Gabriel',1.89,89.3,'1996-4-11','M',3,1),
+(4,'Victor',1.79,79.9,'2001-2-20','M',4,1),
+(5,'Sabrina',1.75,65.2,'1997-5-6','F',5,1),
+(6,'Angela',1.73,64,'2000-5-4','F',6,1),
+(7,'Gabriela',1.68,59.3,'1997-8-9','F',7,1),
+(8,'Benedito',1.79,70.5,'1990-5-15','M',8,1),
+(9,'Bernardo',1.71,100.3,'1990-3-27','M',9,1),
+(10,'Julia',1.80,76.2,'2000-4-27','F',10,2),
+(11,'Silvia',1.69,81.1,'1990-3-9','F',11,2),
+(12,'Lucas',1.82,85.3,'1991-2-10','M',12,2),
+(13,'Marcos',1.78,81.2,'1992-7-12','M',13,1),
+(14,'Julio',1.80,84.5,'1993-11-1','M',14,1),
+(15,'Marcos',1.76,79,'1993-6-15','M',15,2),
+(16,'Maria',1.64,58.9,'1999-5-19','F',16,2),
+(17,'Miriam',1.71,75.20,'1990-7-13','F',17,3),
+(18,'Carla',1.79,81.1,'1994-9-26','F',18,3),
+(19,'Sabrina',1.64,70.5,'1999-7-7','F',19,3),
+(20,'Gilberto',1.82,89.3,'1990-10-20','M',20,3),
+(21,'Marcelo',1.78,86.30,'1996-11-19','M',21,3),
+(22,'Juliano',1.81,89.6,'1992-4-28','M',22,3),
+(23,'Sandro',1.76,79.5,'1996-7-1','M',23,3),
+(24,'Beto',1.69,69,'1992-2-13','M',24,3),
+(25,'Sandra',1.79,82,'1998-2-21','M',25,3),
+(26,'Vinicius',1.79,86.30,'1993-7-18','M',26,3),
+(27,'Giuliano',1.75,85.30,'1992-1-14','M',27,3),
+(28,'Marcos',1.69,68,'1994-5-16','M',28,3),
+(29,'Gilberto',1.64,70.5,'1993-1-13','M',29,2),
+(30,'Sandro',1.81,89.8,'1994-6-9','M',30,2),
+(31,'Juliano',1.79,79.5,'2001-8-15','M',31,1),
+(32,'Sabrina',1.76,86.4,'2002-9-12','F',32,1),
+(33,'Marcia',1.69,75.20,'1995-4-10','F',33,1),
+(34,'Maria Clara',1.79,78.20,'1999-11-6','F',34,1),
+(35,'Clara',1.69,68.3,'2002-3-17','F',35,1),
+(36,'Erene',1.69,64,'1993-3-20','F',36,1),
+(37,'Estefano',1.79,86.5,'1999-8-26','M',37,1),
+(38,'Juliano',1.82,98.6,'1994-1-24','M',38,1),
+(39,'Miguel',1.79,85.3,'1999-3-9','M',39,1),
+(40,'Marcos',1.79,83,'1998-4-1','M',40,3),
+(41,'Marcelo',1.72,72,'1997-8-7','M',41,3),
+(42,'Silvia',1.79,74,'1996-3-3','F',42,3),
+(43,'Angelica',1.59,52,'1995-10-15','F',43,3),
+(44,'Maria Clara',1.71,71,'1998-4-12','F',44,3),
+(45,'Amanda',1.68,63,'1994-3-7','F',45,3),
+(46,'Gilvana',1.58,52.1,'1996-4-22','F',46,3),
+(47,'Sandra',1.75,76.2,'1992-3-13','F',47,3);
+
+insert into paciente(cod_pac,nome_pac,alt_pac,peso_pac,data_nasc_pac,gen_pac,cod_usu,cod_status)
+values
+(48,'Sophia',1.87,85.92,'1999-9-7','F',48,1),
+(49,'Luiza',1.73,92.20,'1973-6-8','F',49,1),
+(50,'Helena',1.85,94.9,'1989-3-4','F',50,1),
+(51,'Maria Eduarda',1.53,75.28,'1998-8-12','F',51,1),
+(52,'Maria Luiza',1.71,57.54,'1971-12-11','F',52,1),
+(53,'Heloísa',1.67,72.58,'1978-3-23','F',53,1),
+(54,'Mariana',1.82,90.84,'1975-9-5','F',54,1),
+(55,'Lara',1.77,93.31,'1996-9-8','F',55,1),
+(56,'Lívia',1.67,52.68,'1996-1-14','F',56,1),
+(57,'Lorena',1.65,97.93,'1972-9-3','F',57,2),
+(58,'Rafaela',1.52,94.61,'1992-9-22','F',58,2),
+(59,'Sarah',1.52,56.54,'2004-12-14','F',59,2),
+(60,'Melissa',1.68,67.58,'1997-11-15','F',60,2),
+(61,'Ana Júlia',1.79,58.83,'1974-1-3','F',61,2),
+(62,'Emanuelly',1.84,67.5,'2005-9-7','F',62,2),
+(63,'Rebeca',1.63,56.27,'1987-3-16','F',63,3),
+(64,'Vitória',1.73,72.19,'1974-3-11','F',64,3),
+(65,'Bianca',1.84,56.44,'1990-4-26','F',65,3),
+(66,'Larissa',1.83,86.55,'1975-11-14','F',66,3),
+(67,'Maria Fernanda',1.81,77.64,'1980-1-23','F',67,3),
+(68,'Amanda',1.84,94.89,'1979-2-3','F',68,3),
+(69,'Ana',1.65,68.66,'2004-5-16','F',69,1),
+(70,'Sofia',1.57,98.74,'1990-3-24','F',70,1),
+(71,'Laura',1.77,68.95,'1971-3-16','F',71,1),
+(72,'Luisa',1.74,59.38,'1993-3-2','F',72,1),
+(73,'Manuela',1.86,96.9,'1970-6-5','F',73,1),
+(74,'Isis',1.88,80.13,'1975-6-1','F',74,1),
+(75,'Isadora',1.77,95.8,'1974-6-4','F',75,1),
+(76,'Gabriela',1.63,61.43,'2002-4-11','F',76,1),
+(77,'Elisa',1.52,57.84,'1995-12-24','F',77,1),
+(78,'Pietra',1.63,94.89,'1970-4-28','F',78,1),
+(79,'Bárbara',1.88,60.26,'2003-12-26','F',79,1),
+(80,'Larissa',1.88,71.52,'1973-12-6','F',80,1),
+(81,'Maria',1.58,74.63,'1997-8-4','F',81,1),
+(82,'Nicole',1.78,68.89,'2003-9-13','F',82,2),
+(83,'Mariana',1.75,74.58,'2004-6-21','F',83,2),
+(84,'Olívia',1.64,62.43,'1981-10-2','F',84,2),
+(85,'Aline',1.85,81.60,'1970-7-14','F',85,2),
+(86,'Maísa',1.66,59.60,'2002-2-26','F',86,2),
+(87,'Carolina',1.83,82.3,'1976-2-4','F',87,2),
+(88,'Anabela',1.74,54.92,'1999-9-23','F',88,2),
+(89,'Ariela',1.74,56.32,'1987-2-5','F',89,1),
+(90,'Iara',1.88,98.54,'2004-10-5','F',90,1),
+(91,'Brenda',1.83,83.44,'1970-1-23','F',91,1),
+(92,'Analice',1.61,71.64,'2004-4-10','F',92,2),
+(93,'Luana',1.54,51.2,'1978-7-17','F',93,2),
+(94,'Marina',1.58,64.10,'1984-3-23','F',94,2),
+(95,'Estela',1.51,83.46,'1989-5-10','F',95,2),
+(96,'Lia',1.84,99.99,'1975-2-5','F',96,2),
+(97,'Paloma',1.65,58.34,'1978-5-9','F',97,2),
+(98,'Juliana',1.51,91.90,'1989-7-22','F',98,2),
+(99,'Karen',1.89,85.73,'1992-9-28','F',99,2),
+(100,'Sabrina',1.82,54.68,'1994-4-21','F',100,2),
+(101,'Belinda',1.71,75.89,'1980-4-22','F',101,2),
+(102,'Carol',1.81,73.95,'1983-9-6','F',102,2),
+(103,'Clarissa',1.70,66.89,'1995-10-17','F',103,1),
+(104,'Milene',1.63,51.85,'1976-2-21','F',104,1),
+(105,'Alessandra',1.65,81.28,'1985-3-3','F',105,1),
+(106,'Dulce',1.66,66.86,'1994-12-8','F',106,1),
+(107,'Miguel',1.63,52.39,'1975-11-4','M',107,1),
+(108,'Matheus',1.62,52.94,'1983-12-13','M',108,1),
+(109,'Lorenzo',1.87,52.49,'1987-9-21','M',109,1),
+(110,'Felipe',1.86,53.11,'2004-10-3','M',110,3),
+(111,'Gustavo',1.52,86.27,'1972-5-21','M',111,3),
+(112,'Leonardo',1.64,89.94,'1992-12-23','M',112,3),
+(113,'Benjamin',1.83,68.11,'1978-9-25','M',113,3),
+(114,'Isaac',1.55,55.71,'1978-5-17','M',114,3),
+(115,'Lucca',1.84,85.86,'1978-5-27','M',115,3),
+(116,'Cauã',1.90,51.98,'2002-10-12','M',116,3),
+(117,'Bryan',1.79,86.55,'1999-7-24','M',117,3),
+(118,'João Miguel',1.64,50.72,'1990-2-20','M',118,3),
+(119,'Vicente',1.55,60.27,'2002-11-22','M',119,3),
+(120,'Antônio',1.51,61.54,'1991-4-24','M',120,3),
+(121,'Benício',1.70,89.78,'1998-9-16','M',121,2),
+(122,'Davi Lucca',1.52,61.14,'1971-11-2','M',122,2),
+(123,'Thiago',1.67,100.18,'1976-2-23','M',123,2),
+(124,'Bernardo',1.86,60.32,'2003-11-2','M',124,2),
+(125,'Heitor',1.57,78.90,'1996-3-23','M',125,1),
+(126,'Guilherme',1.88,67.15,'1989-1-22','M',126,1),
+(127,'Rafael',1.79,66.31,'1981-1-9','M',127,1),
+(128,'Felipe',1.88,100.93,'1987-7-26','M',128,1),
+(129,'Daniel',1.88,85.11,'1984-3-5','M',129,1),
+(130,'João',1.77,77.86,'1985-5-6','M',130,1),
+(131,'Leonardo',1.67,99.28,'1972-4-6','M',131,2),
+(132,'André',1.79,87.71,'1994-11-17','M',132,2),
+(133,'Levi',1.77,84.83,'1980-9-13','M',133,2),
+(134,'Vicente',1.87,52.78,'1973-9-12','M',134,2),
+(135,'Alexandre',1.63,81.51,'1974-12-24','M',135,2),
+(136,'Rodrigo',1.66,76.58,'2002-7-16','M',136,2),
+(137,'Valentim',1.68,67.43,'1985-2-11','M',137,2),
+(138,'Jonathan',1.80,79.35,'1989-7-11','M',138,2),
+(139,'Ângelo',1.85,71.2,'1986-12-6','M',139,2),
+(140,'Ricardo',1.58,54.7,'1974-10-24','M',140,2),
+(141,'Júlio',1.73,88.11,'1999-5-21','M',141,2),
+(142,'Aquiles',1.53,80.96,'1988-12-23','M',142,2),
+(143,'Raul',1.75,68.29,'1983-4-2','M',143,3),
+(144,'César',1.63,88.71,'1978-7-21','M',144,3),
+(145,'Alexander',1.74,64.49,'1980-2-6','M',145,1),
+(146,'Renato',1.87,80.6,'1991-4-19','M',146,1),
+(147,'Caetano',1.68,57.63,'1986-6-27','M',147,1);
 
 
 
+insert into endereco(cod_end,rua_end,cep_end,num_end,comp_end,bai_end,cod_pac,cod_cid)
+values 
+(1,'Principal158',46695702,'29','Ap.967','centro',1,4216701),
+(2,'Principal71',10379309,'1820','Ap.76','centro',2,4216701),
+(3,'Principal161',52340269,'1453','Ap.527','centro',3,4216701),
+(4,'Principal92',38819474,'997','Ap.511','centro',4,4216701),
+(5,'Principal12',96383169,'959','Ap.233','centro',5,4216701),
+(6,'Principal66',91841319,'1324','Ap.93','centro',6,4216701),
+(7,'Principal80',13585516,'1188','Ap.998','Costeira',7,4217204),
+(8,'Principal34',56455042,'451','Ap.381','Costeira',8,4217204),
+(9,'Principal184',20271629,'978','Ap.682','Costeira',9,4217204),
+(10,'Principal22',43776649,'866','Ap.925','centro',10,4217204),
+(11,'Principal75',55524866,'1745','Ap.928','centro',11,4217204),
+(12,'Principal162',32835989,'1049','Ap.326','centro',12,4217204),
+(13,'Principal25',34311422,'688','Ap.435','centro',13,4217204),
+(14,'Principal146',29128848,'271','Ap.272','centro',14,4204202),
+(15,'Principal68',55905793,'440','Ap.22','centro',15,4204202),
+(16,'segunda93',37853715,'263','Ap.476','centro',16,4204202),
+(17,'segunda6',67901293,'1146','Ap.174','centro',17,4204202),
+(18,'segunda188',15083910,'1639','Ap.406','centro',18,4204202),
+(19,'segunda2',66416852,'1585','Ap.711','Meia Volta',19,4204202),
+(20,'segunda81',24906881,'1740','Ap.288','Meia Volta',20,4204202),
+(21,'segunda96',16787189,'320','Ap.287','Meia Volta',21,4204202),
+(22,'segunda100',17048786,'1910','Ap.311','Meia Volta',22,4204202),
+(23,'segunda15',95478911,'545','Ap.404','centro',23,4204202),
+(24,'segunda119',90541494,'690','Ap.896','centro',24,4204202),
+(25,'segunda141',82490531,'45','Ap.864','centro',25,4321402),
+(26,'Fagundes130',17079493,'1533','Ap.950','Jardin',26,4321402),
+(27,'Fagundes150',25244654,'815','Ap.408','Jardin',27,4321402),
+(28,'Fagundes150',95316884,'91','Ap.367','Jardin',28,4321402),
+(29,'Fagundes70',89233386,'1759','Ap.104','Jardin',29,4307005),
+(30,'Fagundes74',90905540,'705','Ap.105','Jardin',30,4307005),
+(31,'Fagundes190',61743693,'1638','Ap.183','Jardin',31,4307005),
+(32,'Fagundes94',26968560,'1023','Ap.555','Jardin',32,4307005),
+(33,'Fagundes48',37943550,'722','Ap.846','Jardin',33,4307005),
+(34,'Fagundes44',24352827,'509','Ap.102','centro',34,4314902),
+(35,'Fagundes142',89519300,'341','Ap.145','centro',35,4314902),
+(36,'Fagundes171',15696202,'38','Ap.979','centro',36,4314902),
+(37,'Fagundes177',11201655,'1328','Ap.279','centro',37,4314902),
+(38,'Fagundes84',53350352,'778','Ap.486','Baruiri',38,4314902),
+(39,'Euclides167',12340663,'757','Ap.941','Baruiri',39,4314902),
+(40,'Euclides73',68377480,'481','Ap.262','Baruiri',40,4314902),
+(41,'Euclides167',36885217,'1848','Ap.396','centro',41,4314902),
+(42,'Euclides22',87228364,'33','Ap.282','centro',42,4314100),
+(43,'Euclides49',35590318,'1415','Ap.915','centro',43,4314100),
+(44,'Euclides8',17058422,'208','Ap.535','centro',44,4314100),
+(45,'Euclides157',22997815,'1791','Ap.949','Tramontina',45,4314100),
+(46,'Euclides169',29176396,'1607','Ap.534','Tramontina',46,4314100),
+(47,'Euclides60',56122015,'1110','Ap.885','Tramontina',47,4314100);
 
-insert into endereco
-values (1,'Principal158',56261924,'1087','Ap.967','centro',4216701),
-(2,'Principal71',82667870,'606','Ap.76','centro',4216701),
-(3,'Principal161',66643759,'139','Ap.527','centro',4216701),
-(4,'Principal92',64345507,'1176','Ap.511','centro',4216701),
-(5,'Principal12',82208893,'1564','Ap.233','centro',4216701),
-(6,'Principal66',35112082,'532','Ap.93','centro',4216701),
-(7,'Principal80',36052691,'1298','Ap.998','Costeira',4210506),
-(8,'Principal34',36927002,'421','Ap.381','Costeira',4210506),
-(9,'Principal184',45822874,'18','Ap.682','Costeira',4210506),
-(10,'Principal22',60435555,'120','Ap.925','centro',4210506),
-(11,'Principal75',11204301,'1251','Ap.928','centro',4210506),
-(12,'Principal162',91863710,'1636','Ap.326','centro',4210506),
-(13,'Principal25',34119400,'1005','Ap.435','centro',4210506),
-(14,'Principal146',55798987,'1206','Ap.272','centro',4204202),
-(15,'Principal68',68750337,'1641','Ap.22','centro',4204202),
-(16,'segunda93',36369727,'1480','Ap.476','centro',4204202),
-(17,'segunda6',13660516,'1642','Ap.174','centro',4204202),
-(18,'segunda188',90457853,'362','Ap.406','centro',4204202),
-(19,'segunda2',75304920,'325','Ap.711','Meia Volta',4204202),
-(20,'segunda81',95452636,'146','Ap.288','Meia Volta',4204202),
-(21,'segunda96',98247373,'16','Ap.287','Meia Volta',4204202),
-(22,'segunda100',81525566,'823','Ap.311','Meia Volta',4204202),
-(23,'segunda15',51481531,'907','Ap.404','centro',4204202),
-(24,'segunda119',24226415,'295','Ap.896','centro',4204202),
-(25,'segunda141',14263801,'172','Ap.864','centro',4314902),
-(26,'Fagundes130',74964157,'1284','Ap.950','Jardin',4314902),
-(27,'Fagundes150',53087635,'1969','Ap.408','Jardin',4314902),
-(28,'Fagundes150',46780731,'1932','Ap.367','Jardin',4314902),
-(29,'Fagundes70',78872255,'355','Ap.104','Jardin',4321402),
-(30,'Fagundes74',72882928,'221','Ap.105','Jardin',4321402),
-(31,'Fagundes190',86862318,'1692','Ap.183','Jardin',4321402),
-(32,'Fagundes94',48244423,'944','Ap.555','Jardin',4321402),
-(33,'Fagundes48',26210481,'1153','Ap.846','Jardin',4321402),
-(34,'Fagundes44',37928758,'1333','Ap.102','centro',4307005),
-(35,'Fagundes142',95951449,'1556','Ap.145','centro',4307005),
-(36,'Fagundes171',12242110,'1833','Ap.979','centro',4307005),
-(37,'Fagundes177',11686053,'1335','Ap.279','centro',4307005),
-(38,'Fagundes84',27124367,'102','Ap.486','Baruiri',4307005),
-(39,'Euclides167',49026458,'506','Ap.941','Baruiri',4307005),
-(40,'Euclides73',47505765,'1787','Ap.262','Baruiri',4307005),
-(41,'Euclides167',68101602,'1857','Ap.396','centro',4307005),
-(42,'Euclides22',72065782,'970','Ap.282','centro',4314100),
-(43,'Euclides49',40606446,'398','Ap.915','centro',4314100),
-(44,'Euclides8',83731913,'501','Ap.535','centro',4314100),
-(45,'Euclides157',45822757,'856','Ap.949','Tramontina',4314100),
-(46,'Euclides169',26351651,'544','Ap.534','Tramontina',4314100),
-(47,'Euclides60',73950098,'1026','Ap.885','Tramontina',4314100);
 
 /*endereco de mais users*/
-insert into endereco values
-(48,'Rua25',94827972,'2203','Ap.876','centro',3518800),
-(49,'Rua832',88539214,'1396','Ap.653','centro',3518800),
-(50,'Rua579',40560199,'3068','Ap.96','centro',3518800),
-(51,'Rua173',47652755,'951','Ap.418','centro',3518800),
-(52,'Rua89',83210690,'2923','Ap.6','centro',3518800),
-(53,'Rua318',87162654,'539','Ap.249','centro',3534401),
-(54,'Rua93',10701283,'1662','Ap.173','centro',3534401),
-(55,'Rua606',91698455,'3243','Ap.570','centro',3534401),
-(56,'Rua640',93373287,'794','Ap.90','centro',3534401),
-(57,'Rua250',44088831,'3553','Ap.992','centro',3547809),
-(58,'Rua618',45638564,'3321','Ap.277','centro',3547809),
-(59,'Rua637',48654438,'311','Ap.501','Boa Viagem',3303302),
-(60,'Rua747',56254401,'1915','Ap.657','Boa Viagem',3303302),
-(61,'Rua805',80533404,'1319','Ap.921','Boa Viagem',3303302),
-(62,'Rua579',22522295,'1630','Ap.982','Boa Viagem',3303302),
-(63,'Rua915',92386844,'1060','Ap.456','Boa Viagem',3303302),
-(64,'Rua10',48874997,'1498','Ap.901','Boa Viagem',3303500),
-(65,'Rua59',33847293,'696','Ap.45','Boa Viagem',3303500),
-(66,'Rua816',69017913,'3652','Ap.398','Boa Viagem',3303500),
-(67,'Rua977',82069978,'829','Ap.449','Boa Viagem',3303500),
-(68,'Rua784',74222471,'450','Ap.570','Boa Viagem',3303500),
-(69,'Rua57',59890630,'3128','Ap.86','Boa Viagem',3300704),
-(70,'Rua112',23680979,'1850','Ap.174','Boa Viagem',3300704),
-(71,'Rua31',58110590,'2487','Ap.172','Boa Viagem',3300704),
-(72,'Rua598',74046382,'2644','Ap.73','centro',3300704),
-(73,'Rua236',59776482,'288','Ap.154','centro',3300704),
-(74,'Rua448',70176817,'3826','Ap.656','centro',3300100),
-(75,'Rua602',19320037,'2099','Ap.309','centro',3300100),
-(76,'Rua925',34408560,'3280','Ap.205','centro',3300100),
-(77,'Rua128',29137115,'387','Ap.321','centro',3300100),
-(78,'Rua214',31515803,'3519','Ap.87','centro',5100102),
-(79,'Principal621',58406199,'1837','Ap.543','centro',5100102),
-(80,'Principal908',38156608,'411','Ap.588','centro',5100102),
-(81,'Principal415',71433983,'308','Ap.79','centro',5100102),
-(82,'Principal939',42916604,'327','Ap.478','Lageadinho',5100102),
-(83,'Principal510',66342497,'427','Ap.765','Lageadinho',5100102),
-(84,'Principal726',22200273,'984','Ap.531','Lageadinho',5100359),
-(85,'Principal397',54719117,'848','Ap.8','Lageadinho',5100359),
-(86,'Principal891',70727315,'529','Ap.510','Lageadinho',5100359),
-(87,'Principal156',63788245,'1290','Ap.349','Lageadinho',5100359),
-(88,'Principal284',45133462,'3529','Ap.977','Nazaré',5000252),
-(89,'Segunda86',34648257,'210','Ap.672','Nazaré',5000252),
-(90,'Segunda846',16893469,'2459','Ap.463','Nazaré',5000203),
-(91,'Segunda0',11507960,'1211','Ap.761','Nazaré',5000203),
-(92,'Segunda417',97014067,'1046','Ap.67','Nazaré',5000203),
-(93,'Segunda112',43541683,'971','Ap.34','Nazaré',5000203),
-(94,'Segunda60',40409982,'3628','Ap.142','Nazaré',5000203),
-(95,'Segunda84',86292736,'615','Ap.147','Vila Joana',1200179),
-(96,'Segunda769',15780983,'202','Ap.90','Vila Joana',1200179),
-(97,'Segunda325',42003495,'2963','Ap.888','Vila Joana',1200179),
-(98,'Segunda807',38992290,'528','Ap.999','Vila Joana',1200179),
-(99,'Segunda382',39280314,'3806','Ap.836','Vila Joana',1200179),
-(100,'Segunda181',14104145,'1121','Ap.756','Vila Joana',1200179),
-(101,'Segunda888',67742357,'3747','Ap.86','Vila Joana',1200344),
-(102,'Segunda740',43607686,'161','Ap.309','Vila Joana',1200344),
-(103,'Segunda852',26437445,'149','Ap.784','Vila Joana',1200344),
-(104,'Segunda208',13230346,'1873','Ap.201','Vila Joana',1200344),
-(105,'Segunda64',43821497,'2617','Ap.390','Vila Jardim Rio Claro',1200344),
-(106,'Frias259',46547738,'37','Ap.350','Vila Jardim Rio Claro',1200807),
-(107,'Frias101',78591289,'3789','Ap.162','Vila Jardim Rio Claro',1200807),
-(108,'Frias238',33875521,'3213','Ap.991','Vila Jardim Rio Claro',1200807),
-(109,'Frias756',65883967,'1105','Ap.572','Vila Jardim Rio Claro',1200807),
-(110,'Frias375',59440779,'1175','Ap.1','Vila Jardim Rio Claro',1200807),
-(111,'Frias586',44359600,'2618','Ap.976','Vila Jardim Rio Claro',1200807),
-(112,'Frias95',79061786,'788','Ap.317','Vila Jardim Rio Claro',1200807),
-(113,'Frias449',74370661,'1272','Ap.70','Vila Jardim Rio Claro',1200807),
-(114,'Frias722',84353929,'1466','Ap.149','Vila Jardim Rio Claro',1200401),
-(115,'Frias653',44076583,'656','Ap.151','Vila Jardim Rio Claro',1200401),
-(116,'Frias435',59605564,'1798','Ap.324','Vila Jardim Rio Claro',1200401),
-(117,'Frias632',46738685,'39','Ap.860','República',1300201),
-(118,'Frias335',53576133,'2038','Ap.151','República',1300201),
-(119,'Frias979',25254377,'2187','Ap.46','República',1300201),
-(120,'Frias859',40662648,'3366','Ap.873','República',1300201),
-(121,'Frias85',59086684,'1452','Ap.364','República',1300201),
-(122,'Frias246',89666014,'2025','Ap.408','República',1300201),
-(123,'Cunha405',99184892,'693','Ap.83','República',1300201),
-(124,'Cunha889',45078699,'97','Ap.40','República',1300300),
-(125,'Cunha676',13700005,'2262','Ap.66','República',1300300),
-(126,'Cunha663',90205132,'1523','Ap.433','República',1300300),
-(127,'Cunha810',87953933,'42','Ap.942','República',1300300),
-(128,'Cunha485',54747225,'2547','Ap.390','República',1300300),
-(129,'Cunha556',90216946,'1617','Ap.277','República',1300300),
-(130,'Cunha345',48511439,'1548','Ap.72','Casa Grande',2925303),
-(131,'Cunha460',22149557,'1276','Ap.869','Casa Grande',2925303),
-(132,'Cunha738',85920979,'803','Ap.270','Casa Grande',2925303),
-(133,'Cunha882',93465741,'1458','Ap.335','Casa Grande',2925303),
-(134,'Cunha263',92735998,'747','Ap.78','Casa Grande',2900702),
-(135,'Cunha236',32218524,'1687','Ap.536','Casa Grande',2900702),
-(136,'Cunha626',21336401,'1331','Ap.650','Casa Grande',2900702),
-(137,'Cunha792',49335538,'248','Ap.723','Casa Grande',2900702),
-(138,'Cunha265',96363649,'1113','Ap.259','Casa Grande',2913606),
-(139,'Cunha820',63427809,'747','Ap.188','centro',2913606),
-(140,'Cunha570',27094281,'933','Ap.839','Gramado',2601409),
-(141,'Cunha173',85391715,'3725','Ap.93','Gramado',2601409),
-(142,'Cunha63',96063442,'2975','Ap.262','Gramado',2601409),
-(143,'Cunha232',87525237,'2631','Ap.354','Gramado',2601409),
-(144,'Cunha837',31340282,'2549','Ap.790','Gramado',2601706),
-(145,'Cunha468',51734299,'982','Ap.440','Gramado',2601706),
-(146,'Cunha888',58454413,'3754','Ap.549','Gramado',2601706),
-(147,'Cunha487',15952855,'3506','Ap.786','Gramado',2601706);
 
-
-insert into paciente(cod_pac,nome_pac,alt_pac,peso_pac,data_nasc_pac,gen_pac,cod_usu,cod_end,cod_status)
-values(1,'Pedro Juliano',1.76,78.20,'2002-6-1','M',1,1,1),
-(2,'João Paulo',1.75,75.20,'1990-5-13','M',2,2,1),
-(3,'Gabriel',1.89,89.3,'1996-4-11','M',3,3,1),
-(4,'Victor',1.79,79.9,'2001-2-20','M',4,4,1),
-(5,'Sabrina',1.75,65.2,'1997-5-6','F',5,5,1),
-(6,'Angela',1.73,64,'2000-5-4','F',6,6,1),
-(7,'Gabriela',1.68,59.3,'1997-8-9','F',7,7,1),
-(8,'Benedito',1.79,70.5,'1990-5-15','M',8,8,1),
-(9,'Bernardo',1.71,100.3,'1990-3-27','M',9,9,1),
-(10,'Julia',1.80,76.2,'2000-4-27','F',10,10,1),
-(11,'Silvia',1.69,81.1,'1990-3-9','F',11,11,1),
-(12,'Lucas',1.82,85.3,'1991-2-10','M',12,12,1),
-(13,'Marcos',1.78,81.2,'1992-7-12','M',13,13,1),
-(14,'Julio',1.80,84.5,'1993-11-1','M',14,14,1),
-(15,'Marcos',1.76,79,'1993-6-15','M',15,15,2),
-(16,'Maria',1.64,58.9,'1999-5-19','F',16,16,2),
-(17,'Miriam',1.71,75.20,'1990-7-13','F',17,17,2),
-(18,'Carla',1.79,81.1,'1994-9-26','F',18,18,2),
-(19,'Sabrina',1.64,70.5,'1999-7-7','F',19,19,2),
-(20,'Gilberto',1.82,89.3,'1990-10-20','M',20,20,2),
-(21,'Marcelo',1.78,86.30,'1996-11-19','M',21,21,2),
-(22,'Juliano',1.81,89.6,'1992-4-28','M',22,22,2),
-(23,'Sandro',1.76,79.5,'1996-7-1','M',23,23,2),
-(24,'Beto',1.69,69,'1992-2-13','M',24,24,2),
-(25,'Sandra',1.79,82,'1998-2-21','M',25,25,2),
-(26,'Vinicius',1.79,86.30,'1993-7-18','M',26,26,2),
-(27,'Giuliano',1.75,85.30,'1992-1-14','M',27,27,2),
-(28,'Marcos',1.69,68,'1994-5-16','M',28,28,2),
-(29,'Gilberto',1.64,70.5,'1993-1-13','M',29,29,2),
-(30,'Sandro',1.81,89.8,'1994-6-9','M',30,30,2),
-(31,'Juliano',1.79,79.5,'2001-8-15','M',31,31,2),
-(32,'Sabrina',1.76,86.4,'2002-9-12','F',32,32,2),
-(33,'Marcia',1.69,75.20,'1995-4-10','F',33,33,3),
-(34,'Maria Clara',1.79,78.20,'1999-11-6','F',34,34,3),
-(35,'Clara',1.69,68.3,'2002-3-17','F',35,35,3),
-(36,'Erene',1.69,64,'1993-3-20','F',36,36,3),
-(37,'Estefano',1.79,86.5,'1999-8-26','M',37,37,3),
-(38,'Juliano',1.82,98.6,'1994-1-24','M',38,38,3),
-(39,'Miguel',1.79,85.3,'1999-3-9','M',39,39,3),
-(40,'Marcos',1.79,83,'1998-4-1','M',40,40,3),
-(41,'Marcelo',1.72,72,'1997-8-7','M',41,41,3),
-(42,'Silvia',1.79,74,'1996-3-3','F',42,42,3),
-(43,'Angelica',1.59,52,'1995-10-15','F',43,43,3),
-(44,'Maria Clara',1.71,71,'1998-4-12','F',44,44,3),
-(45,'Amanda',1.68,63,'1994-3-7','F',45,45,3),
-(46,'Gilvana',1.58,52.1,'1996-4-22','F',46,46,3),
-(47,'Sandra',1.75,76.2,'1992-3-13','F',47,47,3);
-
-
-
-
-
-
-
-
+insert into endereco(cod_end,rua_end,cep_end,num_end,comp_end,bai_end,cod_pac,cod_cid)
+values 
+(48,'Rua25',94827972,'2203','Ap.876','centro',48,3518800),
+(49,'Rua832',88539214,'1396','Ap.653','centro',49,3518800),
+(50,'Rua579',40560199,'3068','Ap.96','centro',50,3518800),
+(51,'Rua173',47652755,'951','Ap.418','centro',51,3518800),
+(52,'Rua89',83210690,'2923','Ap.6','centro',52,3518800),
+(53,'Rua318',87162654,'539','Ap.249','centro',53,3534401),
+(54,'Rua93',10701283,'1662','Ap.173','centro',54,3534401),
+(55,'Rua606',91698455,'3243','Ap.570','centro',55,3534401),
+(56,'Rua640',93373287,'794','Ap.90','centro',56,3534401),
+(57,'Rua250',44088831,'3553','Ap.992','centro',57,3547809),
+(58,'Rua618',45638564,'3321','Ap.277','centro',58,3547809),
+(59,'Rua637',48654438,'311','Ap.501','Boa Viagem',59,3303302),
+(60,'Rua747',56254401,'1915','Ap.657','Boa Viagem',60,3303302),
+(61,'Rua805',80533404,'1319','Ap.921','Boa Viagem',61,3303302),
+(62,'Rua579',22522295,'1630','Ap.982','Boa Viagem',62,3303302),
+(63,'Rua915',92386844,'1060','Ap.456','Boa Viagem',63,3303302),
+(64,'Rua10',48874997,'1498','Ap.901','Boa Viagem',64,3303500),
+(65,'Rua59',33847293,'696','Ap.45','Boa Viagem',65,3303500),
+(66,'Rua816',69017913,'3652','Ap.398','Boa Viagem',66,3303500),
+(67,'Rua977',82069978,'829','Ap.449','Boa Viagem',67,3303500),
+(68,'Rua784',74222471,'450','Ap.570','Boa Viagem',68,3303500),
+(69,'Rua57',59890630,'3128','Ap.86','Boa Viagem',69,3300704),
+(70,'Rua112',23680979,'1850','Ap.174','Boa Viagem',70,3300704),
+(71,'Rua31',58110590,'2487','Ap.172','Boa Viagem',71,3300704),
+(72,'Rua598',74046382,'2644','Ap.73','centro',72,3300704),
+(73,'Rua236',59776482,'288','Ap.154','centro',73,3300704),
+(74,'Rua448',70176817,'3826','Ap.656','centro',74,3300100),
+(75,'Rua602',19320037,'2099','Ap.309','centro',75,3300100),
+(76,'Rua925',34408560,'3280','Ap.205','centro',76,3300100),
+(77,'Rua128',29137115,'387','Ap.321','centro',77,3300100),
+(78,'Rua214',31515803,'3519','Ap.87','centro',78,5100102),
+(79,'Principal621',58406199,'1837','Ap.543','centro',79,5100102),
+(80,'Principal908',38156608,'411','Ap.588','centro',80,5100102),
+(81,'Principal415',71433983,'308','Ap.79','centro',81,5100102),
+(82,'Principal939',42916604,'327','Ap.478','Lageadinho',82,5100102),
+(83,'Principal510',66342497,'427','Ap.765','Lageadinho',83,5100102),
+(84,'Principal726',22200273,'984','Ap.531','Lageadinho',84,5100359),
+(85,'Principal397',54719117,'848','Ap.8','Lageadinho',85,5100359),
+(86,'Principal891',70727315,'529','Ap.510','Lageadinho',86,5100359),
+(87,'Principal156',63788245,'1290','Ap.349','Lageadinho',87,5100359),
+(88,'Principal284',45133462,'3529','Ap.977','Nazaré',88,5000252),
+(89,'Segunda86',34648257,'210','Ap.672','Nazaré',89,5000252),
+(90,'Segunda846',16893469,'2459','Ap.463','Nazaré',90,5000203),
+(91,'Segunda0',11507960,'1211','Ap.761','Nazaré',91,5000203),
+(92,'Segunda417',97014067,'1046','Ap.67','Nazaré',92,5000203),
+(93,'Segunda112',43541683,'971','Ap.34','Nazaré',93,5000203),
+(94,'Segunda60',40409982,'3628','Ap.142','Nazaré',94,5000203),
+(95,'Segunda84',86292736,'615','Ap.147','Vila Joana',95,1200179),
+(96,'Segunda769',15780983,'202','Ap.90','Vila Joana',96,1200179),
+(97,'Segunda325',42003495,'2963','Ap.888','Vila Joana',97,1200179),
+(98,'Segunda807',38992290,'528','Ap.999','Vila Joana',98,1200179),
+(99,'Segunda382',39280314,'3806','Ap.836','Vila Joana',99,1200179),
+(100,'Segunda181',14104145,'1121','Ap.756','Vila Joana',100,1200179),
+(101,'Segunda888',67742357,'3747','Ap.86','Vila Joana',101,1200344),
+(102,'Segunda740',43607686,'161','Ap.309','Vila Joana',102,1200344),
+(103,'Segunda852',26437445,'149','Ap.784','Vila Joana',103,1200344),
+(104,'Segunda208',13230346,'1873','Ap.201','Vila Joana',104,1200344),
+(105,'Segunda64',43821497,'2617','Ap.390','Vila Jardim Rio Claro',105,1200344),
+(106,'Frias259',46547738,'37','Ap.350','Vila Jardim Rio Claro',106,1200807),
+(107,'Frias101',78591289,'3789','Ap.162','Vila Jardim Rio Claro',107,1200807),
+(108,'Frias238',33875521,'3213','Ap.991','Vila Jardim Rio Claro',108,1200807),
+(109,'Frias756',65883967,'1105','Ap.572','Vila Jardim Rio Claro',109,1200807),
+(110,'Frias375',59440779,'1175','Ap.1','Vila Jardim Rio Claro',110,1200807),
+(111,'Frias586',44359600,'2618','Ap.976','Vila Jardim Rio Claro',111,1200807),
+(112,'Frias95',79061786,'788','Ap.317','Vila Jardim Rio Claro',112,1200807),
+(113,'Frias449',74370661,'1272','Ap.70','Vila Jardim Rio Claro',113,1200807),
+(114,'Frias722',84353929,'1466','Ap.149','Vila Jardim Rio Claro',114,1200401),
+(115,'Frias653',44076583,'656','Ap.151','Vila Jardim Rio Claro',115,1200401),
+(116,'Frias435',59605564,'1798','Ap.324','Vila Jardim Rio Claro',116,1200401),
+(117,'Frias632',46738685,'39','Ap.860','República',117,1300201),
+(118,'Frias335',53576133,'2038','Ap.151','República',118,1300201),
+(119,'Frias979',25254377,'2187','Ap.46','República',119,1300201),
+(120,'Frias859',40662648,'3366','Ap.873','República',120,1300201),
+(121,'Frias85',59086684,'1452','Ap.364','República',121,1300201),
+(122,'Frias246',89666014,'2025','Ap.408','República',122,1300201),
+(123,'Cunha405',99184892,'693','Ap.83','República',123,1300201),
+(124,'Cunha889',45078699,'97','Ap.40','República',124,1300300),
+(125,'Cunha676',13700005,'2262','Ap.66','República',125,1300300),
+(126,'Cunha663',90205132,'1523','Ap.433','República',126,1300300),
+(127,'Cunha810',87953933,'42','Ap.942','República',127,1300300),
+(128,'Cunha485',54747225,'2547','Ap.390','República',128,1300300),
+(129,'Cunha556',90216946,'1617','Ap.277','República',129,1300300),
+(130,'Cunha345',48511439,'1548','Ap.72','Casa Grande',130,2925303),
+(131,'Cunha460',22149557,'1276','Ap.869','Casa Grande',131,2925303),
+(132,'Cunha738',85920979,'803','Ap.270','Casa Grande',132,2925303),
+(133,'Cunha882',93465741,'1458','Ap.335','Casa Grande',133,2925303),
+(134,'Cunha263',92735998,'747','Ap.78','Casa Grande',134,2900702),
+(135,'Cunha236',32218524,'1687','Ap.536','Casa Grande',135,2900702),
+(136,'Cunha626',21336401,'1331','Ap.650','Casa Grande',136,2900702),
+(137,'Cunha792',49335538,'248','Ap.723','Casa Grande',137,2900702),
+(138,'Cunha265',96363649,'1113','Ap.259','Casa Grande',138,2913606),
+(139,'Cunha820',63427809,'747','Ap.188','centro',139,2913606),
+(140,'Cunha570',27094281,'933','Ap.839','Gramado',140,2913606),
+(141,'Cunha173',85391715,'3725','Ap.93','Gramado',141,2913606),
+(142,'Cunha63',96063442,'2975','Ap.262','Gramado',142,2913606),
+(143,'Cunha232',87525237,'2631','Ap.354','Gramado',143,2913606),
+(144,'Cunha837',31340282,'2549','Ap.790','Gramado',144,2601706),
+(145,'Cunha468',51734299,'982','Ap.440','Gramado',145,2601706),
+(146,'Cunha888',58454413,'3754','Ap.549','Gramado',146,2601706),
+(147,'Cunha487',15952855,'3506','Ap.786','Gramado',147,2601706);
 
 
 
@@ -6405,61 +6501,111 @@ as
 select p.cod_usu,p.gen_pac,p.peso_pac,p.alt_pac,p.data_nasc_pac
 from paciente p ;
 
-/*criacao de view para visualizar informacoes do user na pagina de tela de informacoes*/
-create or replace view tela_info_vw as
-select pac.cod_usu,pac.nome_pac,pac.alt_pac,pac.peso_pac,pac.data_nasc_pac,pac.gen_pac,e.rua_end,e.num_end,e.comp_end,e.bai_end,c.nome_cid,es.nome_est 
-from paciente pac
-inner join endereco e on pac.cod_end = e.cod_end 
-inner join cidade c on c.cod_cid = e.cod_cid 
-inner join estado es on es.cod_est = c.cod_est ;
 
 
 /*criação de view para verificar se ja tem endereco cadastrado*/
 create or replace view tem_cadastro_vw as
-select p.cod_usu,e.cod_end from paciente p 
+select p.cod_usu from paciente p 
 inner join endereco e
-on p.cod_end = e.cod_end
+on p.cod_pac = e.cod_pac;
 
 
-select * from usuario;
 
-select count(*) as "total suspeitos" from paciente p 
-inner join status s on p.cod_status = s.cod_status
-where s.des_status = 'Suspeito';
 
-select count(*) as "total Confirmados" from paciente p 
-inner join status s on s.cod_status = p.cod_status
-where s.des_status = 'Confirmado';
 
-select count(*) as "total Recuperados" from paciente p 
-inner join status s on s.cod_status = p.cod_status
-where s.des_status = 'Recuperado';
 
-select count(*) as "total suspeitos do sul" from paciente p 
-inner join status s on s.cod_status = p.cod_status
-inner join endereco e on e.cod_end = p.cod_end
+
+
+
+
+
+
+/*criacao de view para visualizar informacoes do user na pagina de tela de informacoes*/
+create or replace view tela_info_vw as
+select pac.cod_pac,u.cod_usu,pac.nome_pac,pac.alt_pac,pac.peso_pac,pac.data_nasc_pac,pac.gen_pac,e.rua_end,e.num_end,e.comp_end,e.bai_end,c.nome_cid,es.nome_est 
+from paciente pac
+inner join endereco e on pac.cod_pac = e.cod_pac 
 inner join cidade c on c.cod_cid = e.cod_cid 
-inner join estado es on es.cod_est = c.cod_est 
-inner join regiao re on re.cod_reg = es.cod_reg 
-where s.des_status = 'Suspeito' and re.nome_reg = 'Sul';
-
-select count(*) as "total confirmado do sul" from paciente p 
-inner join status s on s.cod_status = p.cod_status
-inner join endereco e on e.cod_end = p.cod_end
-inner join cidade c on c.cod_cid = e.cod_cid 
-inner join estado es on es.cod_est = c.cod_est 
-inner join regiao re on re.cod_reg = es.cod_reg 
-where s.des_status = 'Confirmado' and re.nome_reg = 'Sul';
+inner join estado es on es.cod_est = c.cod_est
+inner join usuario u on u.cod_usu = pac.cod_usu;
 
 
-select count(*) as "total recuperados do sul" from paciente p 
-inner join status s on s.cod_status = p.cod_status
-inner join endereco e on e.cod_end = p.cod_end
-inner join cidade c on c.cod_cid = e.cod_cid 
-inner join estado es on es.cod_est = c.cod_est 
-inner join regiao re on re.cod_reg = es.cod_reg 
-where s.des_status = 'Recuperado' and re.nome_reg = 'Sul';
+/*criacao de view para inserir dados do paciente*/
+create view update_paciente_vw as
+select p.nome_pac,p.gen_pac,p.alt_pac,p.peso_pac,p.data_nasc_pac,p.cod_usu from paciente p
+inner join usuario u on u. cod_usu = p.cod_usu;
+
+/*view para pegar a linha que vai ser feito o update do endereco*/
+create or replace  view pega_pac_end_vw as 
+select p.cod_pac,p.cod_usu,rua_end,num_end,comp_end,bai_end,cod_cid 
+from endereco e 
+inner join paciente p on p.cod_pac = e.cod_pac;
+
+select * from pega_pac_end_vw;
+
+select * from endereco p;
+/*procedure para pegar os casos por regioes*/
+delimiter $$
+
+create or replace procedure casos_regiao(status varchar(30), regiao varchar(20))
+		select count(*) as "total",s.des_status, re.nome_reg from paciente p 
+		inner join status s on s.cod_status = p.cod_status
+		inner join endereco e on e.cod_pac = p.cod_pac
+		inner join cidade c on c.cod_cid = e.cod_cid 
+		inner join estado es on es.cod_est = c.cod_est 
+		inner join regiao re on re.cod_reg = es.cod_reg
+			where des_status = status and nome_reg = regiao;
+
+delimiter ;
 
 
+call casos_regiao('Confirmado','Sul');
+
+
+/*procedure para pegar casos gerais*/
+delimiter $$
+create or replace procedure casos_geral(status varchar(30))
+		select count(*) as "total",s.des_status from paciente p 
+		inner join status s on s.cod_status = p.cod_status
+			where des_status = status;
+
+delimiter ;
+
+call casos_geral('Confirmado');
+
+
+
+
+
+
+
+
+
+precisa ser testado
+
+create or replace view pega_pac_vw as
+select p.cod_usu,p.cod_pac from paciente p inner join usuario u on u.cod_usu = p.cod_usu
+;
+
+
+select * from endereco e;
+
+
+
+
+
+
+delimiter $$
+create or replace procedure grava_endereco_perfil(cod int,rua varchar(30),cidade int)
+	update pega_pac_end_vw set rua_end = rua,num_end =num,cod_cid = cidade,cod_pac =cod
+where cod_usu = cod;
+
+delimiter
+
+,num int,comp varchar(15),comp_end = comp,bai_end = bai,
+bai varchar(20),,nome varchar(50),gen char(1),alt numeric(3,2),peso numeric(5,2),data_nas date
+
+
+call grava_endereco_perfil(2,'Principal03',2913606);
 
 
