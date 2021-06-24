@@ -225,7 +225,7 @@
                                     <div class="regiao">
                                         <div class="seta_regiao">
                                             <div class="seta_norte">
-                                                <img src="images/seta_estado.png" alt="" width="20px">
+                                                <img src="images/seta_estado.png" alt="" width="20px" class="img_seta">
                                             </div>
                                             <div class="nome_regiao">
                                                 Norte
@@ -290,7 +290,7 @@
                                     <div class="regiao">
                                         <div class="seta_regiao">
                                             <div class="seta_nordeste">
-                                                <img src="images/seta_estado.png" alt="" width="20px">
+                                                <img src="images/seta_estado.png" alt="" width="20px" class="img_seta">
                                             </div>
                                             <div class="nome_regiao">
                                                 Nordeste
@@ -355,7 +355,7 @@
                                     <div class="regiao">
                                         <div class="seta_regiao">
                                             <div class="seta_centro">
-                                                <img src="images/seta_estado.png" alt="" width="20px">
+                                                <img src="images/seta_estado.png" alt="" width="20px" class="img_seta">
                                             </div>
                                             <div class="nome_regiao">
                                                 Centro-Oeste
@@ -420,7 +420,7 @@
                                     <div class="regiao">
                                         <div class="seta_regiao">
                                             <div class="seta_sudeste">
-                                                <img src="images/seta_estado.png" alt="" width="20px">
+                                                <img src="images/seta_estado.png" alt="" width="20px" class="img_seta">
                                             </div>
                                             <div class="nome_regiao">
                                                 Sudeste
@@ -485,7 +485,7 @@
                                     <div class="regiao">
                                         <div class="seta_regiao">
                                             <div class="seta_sul">
-                                                <img src="images/seta_estado.png" alt="" width="20px">
+                                                <img src="images/seta_estado.png" alt="" width="20px" class="img_seta">
                                             </div>
                                             <div class="nome_regiao">
                                                 Sul
