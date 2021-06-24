@@ -1,0 +1,42 @@
+4) Relacione a idade e quantidade de casos
+positivos de covid por idade. Somente idades
+com mais de 10 casos. Ordene o relatório pela
+idade com mais
+
+select u.codusu, u.nomusu from usuario u
+inner join prontuario p on p.codusu = u.codusu 
+inner join prontuario_sintoma ps on ps.codpro = p.codpro 
+where 
+mod( cast( extract( year from age(u.datnasusu) ) as integer ), 2) = 0 and
+ps.codsin = 2 
+group by u.codusu 
+order by u.nomusu desc;
+
+select u.nomusu, c.nomcid from usuario u
+inner join cep_endereco ce on ce.codcepend = u.codcepend 
+inner join cidade c on c.codcid = ce.codcid 
+inner join prontuario p on p.codusu = u.codusu 
+where 
+u.codgen = 2 and 
+c.nomcid in ('Maravilha', 'Descanso', 'Pinhalzinho', 'Chapecó', 'Itapiranga') and 
+(p.retpro is true or p.codstapro = 3)
+group by u.nomusu, c.nomcid 
+order by c.nomcid asc, u.nomusu desc;
+
+select c.codcid, c.nomcid, count(p.codpro) as total from cidade c
+inner join cep_endereco ce on ce.codcid = c.codcid 
+inner join usuario u on u.codcepend = ce.codcepend 
+inner join prontuario p on p.codusu = u.codusu 
+where 
+p.codstapro = 2
+group by c.codcid, p.codpro 
+order by total desc;
+
+select cast( extract( year from age(u.datnasusu) ) as integer ) as idade, count(p.codpro) as total from usuario u
+inner join prontuario p on p.codusu = u.codusu 
+where 
+p.retpro is true or p.codstapro = 3
+group by idade, p.codpro 
+having 
+count(p.codpro) > 10
+order by total desc;

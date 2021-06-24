@@ -1,9 +1,3 @@
-<?php 
-  require 'utils/cookieHelper.php';
-
-  $ticketAcesso = getCookie($cookieTicketAcesso);
-?>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
@@ -13,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="home.php">Home</a>
+          <a class="nav-link" onClick="abrirPag('public/home/home.php');" href="#">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" onClick="abrirPag('public/conta/contaForm.php');" href="#"><?= isset($ticketAcesso) ? 'Conta' : 'Cadastrar' ?></a>

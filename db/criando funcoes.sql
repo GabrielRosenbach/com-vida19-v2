@@ -91,3 +91,35 @@ END;
 $body$ LANGUAGE 'plpgsql';
 
 
+CREATE OR REPLACE FUNCTION public.salvar_prontuario(ticketAcesso varchar)
+ returns int
+ LANGUAGE plpgsql
+AS $function$
+declare
+codigoUsuario int;
+begin
+	
+	select u.codusu into codigoUsuario from usuario u where u.aceusu = ticketAcesso;
+
+	insert into prontuario (codusu, datcadpro) values (codigoUsuario, current_date);
+	return max(p.codpro) from prontuario p;
+END;
+$function$
+;
+
+CREATE OR REPLACE FUNCTION public.buscar_prontuarios_usuario(ticketAcesso varchar)
+ RETURNS TABLE(datcadpro date, desstapro character varying)
+ LANGUAGE plpgsql
+AS $function$
+begin
+	
+	RETURN QUERY select p.datcadpro, sp.desstapro from prontuario p
+	inner join status_prontuario sp on sp.codstapro = p.codstapro
+	inner join usuario u on u.codusu = p.codusu 
+	where u.aceusu = ticketAcesso;
+END;
+$function$
+;
+
+
+

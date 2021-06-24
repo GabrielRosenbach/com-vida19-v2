@@ -25,14 +25,15 @@ create table genero (
 
 create table usuario (
 	codusu serial primary key, 
-	codgen integer not null, 
-	codcepend integer not null,
+	codgen integer, 
+	codcepend integer,
 	nomusu varchar(50) not null,
-	datnasusu date not null, 
+	datnasusu date, 
 	avausu bytea, 
 	logusu varchar(20) not null,
 	senusu varchar(32) not null,
 	aceusu varchar(32),
+	admusu boolean not null,
 	constraint usuario_codgen_fk foreign key (codgen) references genero (codgen),
 	constraint usuario_codcepend_fk foreign key (codcepend) references cep_endereco (codcepend)
 );
@@ -47,13 +48,20 @@ create table intensidade (
 	desint varchar(10) not null
 );
 
+create table status_prontuario (
+	codstapro serial primary key,
+	desstapro varchar(30) not null
+);
+
 create table prontuario (
 	codpro serial primary key, 
 	codusu integer not null, 
 	datcadpro date not null,
 	retpro boolean,
 	datretpro date,
-	constraint prontuario_codusu_fk foreign key (codusu) references usuario (codusu)
+	codstapro integer not null,
+	constraint prontuario_codusu_fk foreign key (codusu) references usuario (codusu),
+	constraint prontuario_codstapro_fk foreign key (codstapro) references status_prontuario (codstapro)
 );
 
 create table prontuario_sintoma (
@@ -68,7 +76,8 @@ create table prontuario_sintoma (
 
 
 /***********************************************************/
- 
+
+insert into usuario (nomusu, logusu, senusu, admusu, aceusu) values ('Administrador', 'admin.piloto', 'e10adc3949ba59abbe56e057f20f883e', true, '911200c9c3e716cb1baee84a66503918');
 
 insert into estado (codest, desest, unifedest) values (1, 'Rio Grande do Sul', 'RS');
 insert into estado (codest, desest, unifedest) values (2, 'Santa Catarina', 'SC');
@@ -122,3 +131,8 @@ insert into sintoma (codsin, dessin) values (12, 'Perda de Fala ou Movimento');
 insert into intensidade (codint, desint) values (1, 'Leve');
 insert into intensidade (codint, desint) values (2, 'Moderada');
 insert into intensidade (codint, desint) values (3, 'Elevada');
+
+
+insert into status_prontuario (codstapro, desstapro) values (1, 'Não Infectado');
+insert into status_prontuario (codstapro, desstapro) values (2, 'Recomenda-se Exame');
+insert into status_prontuario (codstapro, desstapro) values (3, 'Infectado');

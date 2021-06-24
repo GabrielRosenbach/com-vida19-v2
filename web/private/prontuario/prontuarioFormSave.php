@@ -1,33 +1,67 @@
 <?php
 
 require_once '../../conecta.php';
+require '../../utils/cookieHelper.php';
 
-$nome = isset($_POST['nome']) ? $_POST['nome'] : null;
-$telefone = isset($_POST['telefone']) ? $_POST['telefone'] : null;
-$endereco = isset($_POST['endereco']) ? $_POST['endereco'] : null;
-$usuario = isset($_POST['usuario']) ? $_POST['usuario'] : null;
-$senha = isset($_POST['senha']) ? $_POST['senha'] : null;
+$ticketAcesso = getCookie($cookieTicketAcesso);
 
+$array = [];
+$cont = 0;
+$totalIntensidade = 0;
+foreach (( $PDO->query("select * from codigos_sintomas_vw")) as $row) {
+	$chaveSintoma = 'sintoma-'.$row['codsin'];
+	$sintoma = isset($_POST[$chaveSintoma]) ? $_POST[$chaveSintoma] : null;
+    
+	if (isset($sintoma)) {
+		$chaveIntensidade = 'intensidade-'.$row['codsin'];
+		
+		$intensidade = isset($_POST[$chaveIntensidade]) ? $_POST[$chaveIntensidade] : null;
 
+		$array[$cont++] = [$sintoma, $intensidade];
 
-if (empty($nome) ||  empty($telefone) || empty($endereco) || empty($usuario) || empty($senha)) {
-	echo "Preencha todos os campos.";
+		$totalIntensidade += $intensidade;
+	}
+}
+
+if (count($array) == 0) {
+	echo "Escolha algum sintoma.";
 	exit;
 }
-$sql = "INSERT INTO cliente(nome, telefone, endereco, usuario, senha) VALUES (:nome, :telefone, :endereco, :usuario, :senha)";
-$qryAdd = $PDO->prepare($sql);
-$qryAdd->bindParam(':nome',$nome);
-$qryAdd->bindParam(':endereco', $endereco);
-$qryAdd->bindParam(':telefone', $telefone);
-$qryAdd->bindParam(':usuario', $usuario);
-$qryAdd->bindParam(':senha', $senha);
 
-if ($qryAdd->execute()) {
-	setcookie("usuario", $PDO->lastInsertId(), 0, '/');
-	header('Location: index.php');
+$statusProntuario = null;
+
+if ($totalIntensidade < 5) {
+	$statusProntuario = 1;	
+} else if ($totalIntensidade < 8) {
+	$statusProntuario = 2;
+} else {
+	$statusProntuario = 3;
+}
+
+$queryProntuario = $PDO->prepare("select * from salvar_prontuario(:ticket, :status)");
+$queryProntuario->bindParam(':ticket', $ticketAcesso);
+$queryProntuario->bindParam(':status', $statusProntuario);
+
+$queryProntuario->execute();
+$prontuario = $queryProntuario->fetchObject();
+
+$sql = "insert into prontuario_sintoma(codpro, codsin, codint) values ";
+
+for ($i = 0; $i < count($array); $i++) {
+	if ($i > 0) {
+		$sql = $sql . ', ';
+	}
+	$sql = $sql . '(' .$prontuario->salvar_prontuario. ', ' .$array[$i][0]. ', ' .$array[$i][1]. ')';
+}
+
+
+$query = $PDO->prepare($sql);
+
+if ($query->execute()) {
+	header('Location: ../../index.php');
 } else {
 	echo "Erro ao cadastrar Cliente";
-	print_r($qryAdd->errorInfo());
+	print_r($query->errorInfo());
 }
 
 ?>
