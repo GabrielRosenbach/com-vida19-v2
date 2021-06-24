@@ -29,9 +29,10 @@ create table usuario (
 	codcepend integer not null,
 	nomusu varchar(50) not null,
 	datnasusu date not null, 
-	avausu bytea not null, 
+	avausu bytea, 
 	logusu varchar(20) not null,
-	senusu varchar(20) not null,
+	senusu varchar(32) not null,
+	aceusu varchar(32),
 	constraint usuario_codgen_fk foreign key (codgen) references genero (codgen),
 	constraint usuario_codcepend_fk foreign key (codcepend) references cep_endereco (codcepend)
 );
@@ -67,10 +68,6 @@ create table prontuario_sintoma (
 
 
 /***********************************************************/
-
- 
- 
- 
  
 
 insert into estado (codest, desest, unifedest) values (1, 'Rio Grande do Sul', 'RS');
@@ -125,61 +122,3 @@ insert into sintoma (codsin, dessin) values (12, 'Perda de Fala ou Movimento');
 insert into intensidade (codint, desint) values (1, 'Leve');
 insert into intensidade (codint, desint) values (2, 'Moderada');
 insert into intensidade (codint, desint) values (3, 'Elevada');
-
-/*************************************************************************/
-
-create user desenvolvimento with password '$k£Y!M@sT3R';
-grant select, insert, update on all tables in schema public to desenvolvimento;
-grant select, update, usage on all sequences in schema public to desenvolvimento;
-grant execute on function public.salvar_cidade_cep_endereco(bpchar, varchar, int4) to desenvolvimento;
-grant execute on function public.buscar_cidade_estado(int4) to desenvolvimento;
-
-
-/*************************************************************************/
-
-
-CREATE OR REPLACE function buscar_cidade_estado (cep int4)
-RETURNS table (nomcid varchar, desest varchar) 
-AS
-$body$
-begin
-	
-	RETURN QUERY SELECT ci.nomcid, es.desest FROM cep_endereco AS ce 
-        INNER JOIN cidade AS ci ON ce.codcid = ci.codcid 
-        INNER JOIN estado AS es ON es.codest = ci.codest 
-    	WHERE ce.numcep = cep;
-       	group by ci
-END;
-$body$ LANGUAGE 'plpgsql';
-
-CREATE OR REPLACE function salvar_cidade_cep_endereco (uf CHAR(2), nomeCidade VARCHAR(30), cep int4)
-RETURNS table(nomcid varchar, desest varchar)  
-AS
-$body$
-DECLARE 
-codigoEstado int4;
-codigoCidade int4;
-existeCepCadastrado boolean default false;
-begin
-	
-   	SELECT true into existeCepCadastrado FROM cep_endereco WHERE numcep = cep limit 1;
-   
-  	if not found then 
-	
-	    SELECT e.codest INTO codigoEstado FROM estado as e WHERE e.unifedest = uf;
-	    
-	    SELECT c.codcid INTO codigoCidade FROM cidade as c WHERE c.nomcid = nomeCidade;
-	    
-	    IF NOT FOUND then
-	    	INSERT INTO cidade (codest, nomcid) VALUES (codigoEstado, nomeCidade);
-	    	SELECT MAX(c.codcid) INTO codigoCidade FROM cidade as c; 	
-	    END IF;
-	   
-	   
-	    INSERT INTO cep_endereco (codcid, numcep) VALUES (codigoCidade, cep);
-		return query select * from buscar_cidade_estado(cep);
-	end if;
-END;
-$body$ LANGUAGE 'plpgsql';
-
-

@@ -18,30 +18,9 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="home.php">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" onClick="abrirPag('public/conta/contaForm.php');" href="#">Cadastrar</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" onClick="abrirPag('public/login/loginForm.php');" href="#">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" onClick="abrirPag('private/prontuario/prontuarioForm.php');" href="#">Prontuário</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<?php
+  require 'navbar.php';
+?>
 <main class="container">
 </main>
 <hr>
@@ -61,6 +40,7 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/main.js"></script>
 <script src="js/troca.js"></script>
+
 </body>
 
 </html>
